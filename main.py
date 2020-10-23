@@ -3,10 +3,11 @@
 from tkinter import * 
 from screens import *
 from login import *
+from register import *
 
 # define the main window 
 root = Tk() 
-root.title("Kevin's Test!!!!")
+root.title("Device Control Monitor")
 # sets the geometry of main root window 
 root.geometry("500x400")
 
@@ -16,8 +17,6 @@ contentFrame = Frame(root)
 contentFrame.pack()
 optionsFrame = Frame(root)
 optionsFrame.pack(side=BOTTOM)
-
-copyright = Label(optionsFrame, text ="Copyright (c) KMJ 2020").pack()
 
 # add a menu to window
 menu = Menu(root)
@@ -32,6 +31,7 @@ root.config(menu=menu)
 screens = Screens(contentFrame, optionsFrame)
 
 #### start with making them log in
+#create the login class
 loginScreen  = Login(contentFrame, screens) 
 loginScreen.loginDisplay() ## call the login screen, pass in the pointer to the content frame
 

@@ -17,11 +17,11 @@ class Screens:
 		self.removeContent()
 		self.introText = Label(self.contentFrame, text = "main screen content here!").pack()
 		self.goAOO = Button(self.contentFrame, text ="AOO SCREEN", command = lambda: self.AOO()).pack()
-		self.goAAI = Button(self.contentFrame, text ="AAI SCREEN", command = lambda: self.AOO()).pack()
-		self.goVOO = Button(self.contentFrame, text ="VOO SCREEN", command = lambda: self.AOO()).pack()
-		self.goVVI = Button(self.contentFrame, text ="VVI SCREEN", command = lambda: self.AOO()).pack()
+		self.goAAI = Button(self.contentFrame, text ="AAI SCREEN", command = lambda: self.AAI()).pack()
+		self.goVOO = Button(self.contentFrame, text ="VOO SCREEN", command = lambda: self.VOO()).pack()
+		self.goVVI = Button(self.contentFrame, text ="VVI SCREEN", command = lambda: self.VVI()).pack()
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		
+	
 	def AOO(self):
 		self.removeContent()
 		self.AOOcontent = Label(self.contentFrame, text ="AOO content is now here! ").pack()
