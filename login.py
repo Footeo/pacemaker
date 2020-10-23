@@ -44,25 +44,34 @@ class Login:
 	def registerScreen(self):
 		self.registerText = Label(self.contentFrame, text ="Register a new user").pack()
 		self.newNameLabel = Label(self.contentFrame, text ="Enter New Username: ").pack()
-		self.newNameEntry = Entry(self.contentFrame).pack()  			##Have to save this entry into a text file somehow
+		self.newNameEntry = Entry(self.contentFrame)  			##Have to save this entry into a text file somehow
+		self.newNameEntry.pack()
 		self.newPassLabel = Label(self.contentFrame, text="Enter Password: ").pack()
-		self.newPassEntry = Entry(self.contentFrame, show="*").pack()  #have to save this password into a text file too 
-		self.newPassLabel2 = Label(self.contentFrame, text="Reenter Password: ").pack()
-		self.newPassEntry2 = Entry(self.contentFrame, show="*").pack()  #have to save this password into a text file too 
-		self.registerMessage = Label(self.contentFrame, text="").pack()
+		self.newPassEntry = Entry(self.contentFrame, show="*")  #have to save this password into a text file too 
+		self.newPassEntry.pack()
+		self.newPassLabel2 = Label(self.contentFrame, text="Reenter Password: ")
+		self.newPassLabel2.pack()
+		self.newPassEntry2 = Entry(self.contentFrame, show="*")  #have to save this password into a text file too 
+		self.newPassEntry2.pack()
+		self.registerMessage = Label(self.contentFrame, text="")
+		self.registerMessage.pack()
 		self.registerBtn = Button(self.contentFrame, text ="Enter", command = self.registerGo).pack()
 
 	def registerGo(self):
-		# file = askopenfile(mode='a+',filetypes=[('Text Files','users.txt')])
-		# lines = file.read()
-		# rows = 0
-        # lineList = lines.split("\n") #makes a list
-		if self.newPassEntry.get() == self.newPassEntry2.get():
-			self.regMessage.configure(text="Passwords do match")
-       	# 	for i in lineList:
-        #     	rows += 1
+    	# file = open("users.txt","r")
+    	# self.rows = 0
+    	# self.lines = file.readlines() #make a list where each line of the file is an index in the list
 
-        # 	if (rows < 10): # append the new password and username
+    	# for i in self.lines:
+        #  	self.rows = self.rows + 1
+
+		if (self.newPassEntry.get() == self.newPassEntry2.get()):
+			self.registerMessage.configure(text="Passwords do match")
+			
+
+        	# if (rows < 10): # append the new password and username
+				# file.close()
+		# 		file = open("users.txt","a")
         #     	file.write(self.newNameEntry.get() + '\t') #uName and pass split with a tab
         #     	file.write(self.newPassEntry.get() + "\n")
         #     	file.close()
@@ -70,11 +79,9 @@ class Login:
         # 	else: 
         #     	file.close()
 		# 		self.registerMessage.configure(text="max number of useres has already been registered")
-            #send error message that there is already 10 users ('max number of users has been registered')
+        #     send error message that there is already 10 users ('max number of users has been registered')
 
 
 
 		# else:
 		# 	self.regMessage.configure(text="Passwords do not match")
-
-	
