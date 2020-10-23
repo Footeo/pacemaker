@@ -31,11 +31,14 @@ class Login:
 	def loginGo(self):
 		#### obviously you need to check with real usernames that
 		## you store on disk - for now user k and pass j lets you in!!!!
+
+
+
 		if (self.inputName.get() != "k") or (self.inputPass.get()!="j"):
 			self.message.configure(text="you entered INVALID login info!")
 			self.loginClear() # dont leave pass entered, but we leave the username
 		else:
-			self.screens.mainScreen()
+			self.screens.mainScreen()  #This interactis with screens.py in the main.py file
 			
 			
 
