@@ -38,6 +38,9 @@ class Login:
 		else:
 			self.screens.mainScreen()  #This interacts with screens.py in the main.py file @ where .mainScreen() comes from
 			
+
+##NEW STUFF NOT DEBUGGED \/
+
 	def registerScreen(self):
 		self.registerText = Label(self.contentFrame, text ="Register a new user").pack()
 		self.newNameLabel = Label(self.contentFrame, text ="Enter New Username: ").pack()

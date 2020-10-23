@@ -3,7 +3,7 @@
 from tkinter import * 
 from screens import *
 from login import *
-from register import *
+from register import * #added
 
 # define the main window 
 root = Tk() 
