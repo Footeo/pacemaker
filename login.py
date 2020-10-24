@@ -41,6 +41,8 @@ class Login:
 
 ##NEW STUFF NOT DEBUGGED \/
 
+
+
 	def registerScreen(self):
 		self.registerText = Label(self.contentFrame, text ="Register a new user").pack()
 		self.newNameLabel = Label(self.contentFrame, text ="Enter New Username: ").pack()
@@ -55,33 +57,34 @@ class Login:
 		self.newPassEntry2.pack()
 		self.registerMessage = Label(self.contentFrame, text="")
 		self.registerMessage.pack()
-		self.registerBtn = Button(self.contentFrame, text ="Enter", command = self.registerGo).pack()
+		self.registerMessage2 = Label(self.contentFrame, text="")
+		self.registerMessage2.pack()
+		self.registerBtn = Button(self.contentFrame, text ="Enter", command = lambda: self.registerUser(self.newNameEntry.get(),self.newPassEntry.get(),self.newPassEntry2.get()))
+		self.registerBtn.pack() #What if i make it call a function registerUser?
 
-	def registerGo(self):
-    	# file = open("users.txt","r")
-    	# self.rows = 0
-    	# self.lines = file.readlines() #make a list where each line of the file is an index in the list
 
-    	# for i in self.lines:
-        #  	self.rows = self.rows + 1
+	def registerUser(self,uName,p1,p2):
+		file = open("users.txt","r")
+		rows = 0
+		lines = file.readlines() #make a list where each line of the file is an index in the list
 
-		if (self.newPassEntry.get() == self.newPassEntry2.get()):
-			self.registerMessage.configure(text="Passwords do match")
+		for i in lines:
+			rows = rows + 1
+
+		if (p1==p2):
+			self.registerMessage.configure(text = "Passwords Match")
 			
-
-        	# if (rows < 10): # append the new password and username
-				# file.close()
-		# 		file = open("users.txt","a")
-        #     	file.write(self.newNameEntry.get() + '\t') #uName and pass split with a tab
-        #     	file.write(self.newPassEntry.get() + "\n")
-        #     	file.close()
-
-        # 	else: 
-        #     	file.close()
-		# 		self.registerMessage.configure(text="max number of useres has already been registered")
-        #     send error message that there is already 10 users ('max number of users has been registered')
-
-
-
-		# else:
-		# 	self.regMessage.configure(text="Passwords do not match")
+			if(rows < 10): # append the new password and username
+				file.close()
+				file = open("users.txt",'a')
+				file.write(uName + '\t') #append uName and pass to file
+				file.write(p2 + "\n")
+				file.close()
+				self.registerMessage2.configure(text = "New User registered")
+			else: 
+				self.registerMessage.configure(text = "Max number of users have been reached")
+				file.close()
+				
+		else:
+			self.registerMessage.configure(text = "Passwords do not match, try again")
+			file.close()
