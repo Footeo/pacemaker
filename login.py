@@ -20,28 +20,35 @@ class Login:
 		self.inputPass.pack()
 		self.message = Label(self.contentFrame, text="")
 		self.message.pack()
-		self.loginBtn = Button(self.contentFrame, text ="Login", command = self.loginGo)
+		self.loginBtn = Button(self.contentFrame, text ="Login", command = lambda: self.loginGo(self.inputName.get(),self.inputPass.get()))
 		self.loginBtn.pack()
 		self.registerBtn = Button(self.contentFrame, text ="Register new user", command = self.registerScreen) ### need to do a registration screen!
 		self.registerBtn.pack()
-		self.fubar = Label(self.contentFrame, text="for testing use name 'k' and the pass 'j' - anything else will give error")
+		self.fubar = Label(self.contentFrame, text="")
 		self.fubar.pack()
 
 
-	def loginGo(self):
+	## UPDATED TO CHECK USERNAME AND PASSWORDS
+
+	def loginGo(self,uName,Pass):
 		#### obviously you need to check with real usernames that you store on file
+		file = open("users.txt","r")
+		lines = file.readlines()
+		print(lines)
+		# FName,FPass = lines.strip("\n")
+		for i in lines:
+			stripped = i.strip("\n")
+			FName,FPass = stripped.split("\t")
+			if (uName == FName) and (Pass == FPass):
+				self.screens.mainScreen() 
+				break
 
-
-		if (self.inputName.get() != "k") or (self.inputPass.get()!="j"):
-			self.message.configure(text="you entered INVALID login info!")
-			self.loginClear() # dont leave pass entered, but we leave the username
-		else:
-			self.screens.mainScreen()  #This interacts with screens.py in the main.py file @ where .mainScreen() comes from
-			
-
-##NEW STUFF NOT DEBUGGED \/
-
-
+		file.close()
+		self.message.configure(text="you entered INVALID login info!")
+		self.loginClear() # dont leave pass entered, but we leave the username #This interacts with screens.py in the main.py file @ where .mainScreen() comes from
+	
+	
+	## This is the function for registering a new user
 
 	def registerScreen(self):
 		self.registerText = Label(self.contentFrame, text ="Register a new user").pack()
@@ -62,6 +69,7 @@ class Login:
 		self.registerBtn = Button(self.contentFrame, text ="Enter", command = lambda: self.registerUser(self.newNameEntry.get(),self.newPassEntry.get(),self.newPassEntry2.get()))
 		self.registerBtn.pack() #What if i make it call a function registerUser?
 
+	##This is the code that will confirm the registration for the user.
 
 	def registerUser(self,uName,p1,p2):
 		file = open("users.txt","r")
