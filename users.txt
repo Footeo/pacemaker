@@ -1,2 +1,7 @@
 a	bb
 a	aa
+a	b
+a	a
+a	a
+g	a
+t	p

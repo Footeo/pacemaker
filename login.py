@@ -1,4 +1,5 @@
-from tkinter import *    
+from tkinter import *  
+
 
 class Login:
 	def __init__(self, contentFrame, screens):
@@ -7,7 +8,6 @@ class Login:
 	
 	def loginClear(self): # clear the input text to need to reenter
 		self.inputPass.delete(0,END)
-
 
 	def loginDisplay(self):
 		self.labelName = Label(self.contentFrame, text ="Enter Username: ")
@@ -31,21 +31,22 @@ class Login:
 	## UPDATED TO CHECK USERNAME AND PASSWORDS
 
 	def loginGo(self,uName,Pass):
-		#### obviously you need to check with real usernames that you store on file
+		# check with usernames/passwords stored on file
 		file = open("users.txt","r")
 		lines = file.readlines()
-		print(lines)
+		# print(lines)
 		# FName,FPass = lines.strip("\n")
 		for i in lines:
 			stripped = i.strip("\n")
 			FName,FPass = stripped.split("\t")
 			if (uName == FName) and (Pass == FPass):
 				self.screens.mainScreen() 
+				file.close()
 				break
 
 		file.close()
-		self.message.configure(text="you entered INVALID login info!")
-		self.loginClear() # dont leave pass entered, but we leave the username #This interacts with screens.py in the main.py file @ where .mainScreen() comes from
+		self.message.configure(text="you entered INVALID login info!") 
+		self.loginClear()  #This interacts with screens.py in the main.py file @ where .mainScreen() comes from
 	
 	
 	## This is the function for registering a new user
@@ -75,24 +76,35 @@ class Login:
 		file = open("users.txt","r")
 		rows = 0
 		lines = file.readlines() #make a list where each line of the file is an index in the list
-
+		word2 = "str" ## will not be a useable username 'reserved'
 		for i in lines:
 			rows = rows + 1
 
 		if (p1==p2):
 			self.registerMessage.configure(text = "Passwords Match")
+			for j in lines:
+				for word in j.split("\t"):
+					if(word == uName):
+						print("Username already taken")
+						self.registerMessage2.configure(text="Username already taken")
+						word2 = word
 			
-			if(rows < 10): # append the new password and username
+				
+			
+			if(rows < 10 and (word2 != uName)): # append the new password and username
 				file.close()
 				file = open("users.txt",'a')
 				file.write(uName + '\t') #append uName and pass to file
 				file.write(p2 + "\n")
 				file.close()
 				self.registerMessage2.configure(text = "New User registered")
-			else: 
+			elif(rows < 10 and (word2 == uName)): 
+				self.registerMessage2.configure(text = "Username already taken, try a different name")
+				file.close()
+			else:
 				self.registerMessage.configure(text = "Max number of users have been reached")
 				file.close()
-				
+
 		else:
 			self.registerMessage.configure(text = "Passwords do not match, try again")
 			file.close()

@@ -3,7 +3,7 @@
 from tkinter import * 
 from screens import *
 from login import *
-from register import * #added
+# from register import * #added
 
 # define the main window 
 root = Tk() 
@@ -24,8 +24,6 @@ item = Menu(menu)
 item.add_command(label="Exit", command=quit)
 menu.add_cascade(label="Menu", menu=item)
 root.config(menu=menu) 
-
-
 
 #create the screens class
 screens = Screens(contentFrame, optionsFrame)
