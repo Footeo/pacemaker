@@ -316,6 +316,7 @@ class Screens:
 							
 						else:
 							# write only
+							del lines[count]
 							lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
 							lines.insert(count+1, "\n"+"URL"+"\t"+URL)
 							lines.insert(count+2, "\n"+"VentAmp"+"\t"+VentAmp)
