@@ -2,8 +2,6 @@ from tkinter import *
 import settings # global variables
 import screens # screens.func() to get anything to run
 
-global user
-
 class Login:
 	def __init__(self, contentFrame, screens):
 		self.contentFrame = contentFrame
@@ -115,4 +113,5 @@ class Login:
 
 		else:
 			self.registerMessage.configure(text = "Passwords do not match, try again")
+			self.registerMessage2.configure(text="")
 			file.close()

@@ -4,6 +4,11 @@ VOO
 VVI
 a
 AOO
+LRL	10
+URL	20
+AtrAmp	10
+AtrPW	10
+APR	10
 AAI
 VOO
 VVI
@@ -25,7 +30,11 @@ AOO
 AAI
 VOO
 VVI
-LRL
+LRL	10
+URL	20
+VentAmp	10
+VentPW	2
+VRP	0
 i
 AOO
 AAI
