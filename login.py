@@ -1,5 +1,8 @@
 from tkinter import *  
+import settings # global variables
+import screens # screens.func() to get anything to run
 
+global user
 
 class Login:
 	def __init__(self, contentFrame, screens):
@@ -22,7 +25,7 @@ class Login:
 		self.message.pack()
 		self.loginBtn = Button(self.contentFrame, text ="Login", command = lambda: self.loginGo(self.inputName.get(),self.inputPass.get()))
 		self.loginBtn.pack()
-		self.registerBtn = Button(self.contentFrame, text ="Register new user", command = self.registerScreen) ### need to do a registration screen!
+		self.registerBtn = Button(self.contentFrame, text ="Register new user", command = self.registerScreen) 
 		self.registerBtn.pack()
 		self.fubar = Label(self.contentFrame, text="")
 		self.fubar.pack()
@@ -40,14 +43,14 @@ class Login:
 			stripped = i.strip("\n")
 			FName,FPass = stripped.split("\t")
 			if (uName == FName) and (Pass == FPass):
+				settings.user = FName
 				self.screens.mainScreen() 
-				file.close()
 				break
-
+			else:
+				self.message.configure(text="you entered INVALID login info!") 
+				self.loginClear()  #This interacts with screens.py in the main.py file @ where .mainScreen() comes from
 		file.close()
-		self.message.configure(text="you entered INVALID login info!") 
-		self.loginClear()  #This interacts with screens.py in the main.py file @ where .mainScreen() comes from
-	
+			
 	
 	## This is the function for registering a new user
 
@@ -97,12 +100,17 @@ class Login:
 				file.write(uName + '\t') #append uName and pass to file
 				file.write(p2 + "\n")
 				file.close()
+				file = open("parameters.txt","a")
+				file.write("\n"+uName+"\nAOO\nAAI\nVOO\nVVI\nLRL") # when a new user is registered they get their own set of programmable parameteres added to the file
+				file.close() 
 				self.registerMessage2.configure(text = "New User registered")
+
 			elif(rows < 10 and (word2 == uName)): 
 				self.registerMessage2.configure(text = "Username already taken, try a different name")
 				file.close()
 			else:
 				self.registerMessage.configure(text = "Max number of users have been reached")
+				self.registerMessage2.configure(text = "")
 				file.close()
 
 		else:

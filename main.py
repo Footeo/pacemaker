@@ -1,9 +1,9 @@
-### kevin test code for windows for pacemaker
-
 from tkinter import * 
 from screens import *
 from login import *
-# from register import * #added
+import settings # settings.init()
+
+settings.init() #initialize global variables
 
 # define the main window 
 root = Tk() 
@@ -28,10 +28,9 @@ root.config(menu=menu)
 #create the screens class
 screens = Screens(contentFrame, optionsFrame)
 
-#### start with making them log in
 #create the login class
 loginScreen  = Login(contentFrame, screens) 
-loginScreen.loginDisplay() ## call the login screen, pass in the pointer to the content frame
+loginScreen.loginDisplay() ## call the login screen
 
 
 # mainloop, runs infinitely 
