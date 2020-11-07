@@ -1,6 +1,5 @@
 # this file has the contents that will go into the main frame for one of the options we are doing
 from tkinter import * 
-import settings
 import parameters
 
 class Screens:
@@ -30,7 +29,7 @@ class Screens:
 		self.removeContent()
 		self.AOOcontent = Label(self.contentFrame, text ="AOO Programmable Variables").pack()
 
-		# Add programmable variables
+		#programmable parameters inputs
 		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
@@ -43,22 +42,19 @@ class Screens:
 		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width").pack()
 		self.AtrPulseWidthInput = Entry(self.contentFrame)
 		self.AtrPulseWidthInput.pack()
-		self.ARP = Label(self.contentFrame, text="Atrial Refractory Period (ARP)").pack()
-		self.ARPInput = Entry(self.contentFrame)
-		self.ARPInput.pack()
 		# call the write fuctions stored in the parameters.py module
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAOO(self.LRLInput.get(),self.URLInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.ARPInput.get())).pack()  # Saves the parameters to the master file
-
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAOO(self.LRLInput.get(),self.URLInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get())).pack()  # Saves the parameters to the master file
+		# Other menu buttons
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbuttonremoveme = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
-		self.textbuttonremoveme2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
+		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
 
 	def AAI(self):
 		self.removeContent()
 		self.AAIcontent = Label(self.contentFrame, text ="AAI Programmable Variables").pack()
 				
-		# Add programmable variables
+		#programmable parameters inputs
 		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
@@ -78,8 +74,8 @@ class Screens:
 		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAAI(self.LRLInput.get(),self.URLInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.ARPInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbuttonremoveme = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
-		self.textbuttonremoveme2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
+		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
 
 		
@@ -87,7 +83,7 @@ class Screens:
 		self.removeContent()
 		self.VOOcontent = Label(self.contentFrame, text ="VOO Programmable Variables").pack()
 				
-		# Add programmable variables with box for input
+		# programmable parameters inputs
 		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
@@ -100,15 +96,12 @@ class Screens:
 		self.VentPulseWidthLabel = Label(self.contentFrame, text="Ventricular Pulse Width").pack()
 		self.VentPulseWidthInput = Entry(self.contentFrame)
 		self.VentPulseWidthInput.pack()
-		self.VRP = Label(self.contentFrame, text="Ventricular Refractory Period (VRP)").pack()
-		self.VRPInput = Entry(self.contentFrame)
-		self.VRPInput.pack()
-
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVOO(self.LRLInput.get(),self.URLInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.VRPInput.get())).pack()  # Saves the parameters to the master file
+		#save parameters button
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVOO(self.LRLInput.get(),self.URLInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbuttonremoveme = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
-		self.textbuttonremoveme2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
+		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
 
 
@@ -116,7 +109,7 @@ class Screens:
 		self.removeContent()
 		self.VIIcontent = Label(self.contentFrame, text ="VVI Programmable Variables").pack()
 				
-		# Add programmable variables
+		# programmable parameters inputs
 		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
@@ -136,8 +129,8 @@ class Screens:
 		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVVI(self.LRLInput.get(),self.URLInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.VRPInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbuttonremoveme = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
-		self.textbuttonremoveme2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
+		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
 
 
@@ -150,7 +143,7 @@ class Screens:
         # call colorTxRx(1) to turn indicator light on and (0) to turn it off
 	def colorTxRx(self, type):
 		if (type==1):
-			self.txrx.configure(bg="yellow")
+			self.txrx.configure(bg="lightgreen")
 		else:
 			self.txrx.configure(bg="white")
 

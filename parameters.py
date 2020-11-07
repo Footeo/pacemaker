@@ -1,11 +1,10 @@
 from tkinter import *
 import settings
-import screens
 
 # This could probably be cleaned up by making a class, the functions all take different inputs so it would be
 # difficult to make them universal members of a class in that case. 
 
-def writeAOO(LRL,URL,AtrAmp,AtrPW,APR):
+def writeAOO(LRL,URL,AtrAmp,AtrPW):
     file = open("parameters.txt","r")
     lines = file.readlines()
     file.close()
@@ -22,13 +21,13 @@ def writeAOO(LRL,URL,AtrAmp,AtrPW,APR):
                     yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
                     if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
                         #delete next 4 values
-                        del lines[count:count+5] #delete items from count to count+4
+                        del lines[count:count+4] #delete items from count to count+4
                         
                         lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
                         lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW)
-                        lines.insert(count+4, "\n"+"APR"+"\t"+APR+"\n")
+                        
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -43,7 +42,7 @@ def writeAOO(LRL,URL,AtrAmp,AtrPW,APR):
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
                         lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW)
-                        lines.insert(count+4, "\n"+"APR"+"\t"+APR+"\n")
+                        
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -52,7 +51,7 @@ def writeAOO(LRL,URL,AtrAmp,AtrPW,APR):
                         file.close()
                         break
 
-def writeAAI(LRL,URL,AtrAmp,AtrPW,APR): ## Same variables a write AAI just different naming convention
+def writeAAI(LRL,URL,AtrAmp,AtrPW,ARP): ## Same variables a write AAI just different naming convention
     file = open("parameters.txt","r")
     lines = file.readlines()
     file.close()
@@ -74,7 +73,7 @@ def writeAAI(LRL,URL,AtrAmp,AtrPW,APR): ## Same variables a write AAI just diffe
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
                         lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW)
-                        lines.insert(count+4, "\n"+"APR"+"\t"+APR+"\n")
+                        lines.insert(count+4, "\n"+"ARP"+"\t"+ARP+"\n")
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -89,7 +88,7 @@ def writeAAI(LRL,URL,AtrAmp,AtrPW,APR): ## Same variables a write AAI just diffe
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
                         lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW)
-                        lines.insert(count+4, "\n"+"APR"+"\t"+APR+"\n")
+                        lines.insert(count+4, "\n"+"ARP"+"\t"+ARP+"\n")
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -98,7 +97,7 @@ def writeAAI(LRL,URL,AtrAmp,AtrPW,APR): ## Same variables a write AAI just diffe
                         file.close()
                         break
 
-def writeVOO(LRL,URL,VentAmp,VentPW,VRP):
+def writeVOO(LRL,URL,VentAmp,VentPW):
     file = open("parameters.txt","r")
     lines = file.readlines()
     file.close()
@@ -115,13 +114,12 @@ def writeVOO(LRL,URL,VentAmp,VentPW,VRP):
                     yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
                     if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
                         #delete next 4 values
-                        del lines[count:count+5] #delete items from count-1 to count+3
+                        del lines[count:count+4] #delete items from count-1 to count+3
                         
                         lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"VentAmp"+"\t"+VentAmp)
                         lines.insert(count+3, "\n"+"VentPW"+"\t"+VentPW)
-                        lines.insert(count+4, "\n"+"VRP"+"\t"+VRP+"\n")
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -136,7 +134,7 @@ def writeVOO(LRL,URL,VentAmp,VentPW,VRP):
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"VentAmp"+"\t"+VentAmp)
                         lines.insert(count+3, "\n"+"VentPW"+"\t"+VentPW)
-                        lines.insert(count+4, "\n"+"VRP"+"\t"+VRP+"\n")
+                        
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable

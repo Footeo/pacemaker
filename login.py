@@ -10,7 +10,7 @@ class Login:
 	def loginClear(self): # clear the input text to need to reenter
 		self.inputPass.delete(0,END)
 
-	def loginDisplay(self):
+	def loginDisplay(self): #login display for entering username and password and calling the login function 
 		self.labelName = Label(self.contentFrame, text ="Enter Username: ")
 		self.labelName.pack()
 		self.inputName = Entry(self.contentFrame)
@@ -28,20 +28,15 @@ class Login:
 		self.fubar = Label(self.contentFrame, text="")
 		self.fubar.pack()
 
-
-	## UPDATED TO CHECK USERNAME AND PASSWORDS
-
 	def loginGo(self,uName,Pass):
 		# check with usernames/passwords stored on file
 		file = open("users.txt","r")
 		lines = file.readlines()
-		# print(lines)
-		# FName,FPass = lines.strip("\n")
 		for i in lines:
 			stripped = i.strip("\n")
-			FName,FPass = stripped.split("\t")
+			FName,FPass = stripped.split("\t") # store username and password into temp variables
 			if (uName == FName) and (Pass == FPass):
-				settings.user = FName
+				settings.user = FName # !Important -> stores the logged in user to the global user variable
 				self.screens.mainScreen() 
 				break
 			else:
@@ -50,7 +45,7 @@ class Login:
 		file.close()
 			
 	
-	## This is the function for registering a new user
+	## This is the display for registering a new user
 
 	def registerScreen(self):
 		self.registerText = Label(self.contentFrame, text ="Register a new user").pack()
@@ -71,7 +66,7 @@ class Login:
 		self.registerBtn = Button(self.contentFrame, text ="Enter", command = lambda: self.registerUser(self.newNameEntry.get(),self.newPassEntry.get(),self.newPassEntry2.get()))
 		self.registerBtn.pack() #What if i make it call a function registerUser?
 
-	##This is the code that will confirm the registration for the user.
+	##This is the code that confirms the registration for the user.
 
 	def registerUser(self,uName,p1,p2):
 		file = open("users.txt","r")
@@ -80,38 +75,38 @@ class Login:
 		word2 = "str" ## will not be a useable username 'reserved'
 		for i in lines:
 			rows = rows + 1
-
+		# if passwords match
 		if (p1==p2):
 			self.registerMessage.configure(text = "Passwords Match")
 			for j in lines:
 				for word in j.split("\t"):
-					if(word == uName):
+					if(word == uName): # if input is same as a name on file
 						print("Username already taken")
 						self.registerMessage2.configure(text="Username already taken")
 						word2 = word
 			
 				
 			
-			if(rows < 10 and (word2 != uName)): # append the new password and username
-				file.close()
+			if(rows < 10 and (word2 != uName)): # append the new password and username if less than 10 users and the name is unique
+				file.close() #close read mode
 				file = open("users.txt",'a')
 				file.write(uName + '\t') #append uName and pass to file
 				file.write(p2 + "\n")
-				file.close()
+				file.close() #close this file
 				file = open("parameters.txt","a")
-				file.write("\n"+uName+"\nAOO\nAAI\nVOO\nVVI\nLRL") # when a new user is registered they get their own set of programmable parameteres added to the file
+				file.write("\n"+uName+"\nAOO\nAAI\nVOO\nVVI\nLRL") # when a new user is registered they get their own set of programmable parameteres added to the parameters file
 				file.close() 
 				self.registerMessage2.configure(text = "New User registered")
 
-			elif(rows < 10 and (word2 == uName)): 
+			elif(rows < 10 and (word2 == uName)): #If username is not unique
 				self.registerMessage2.configure(text = "Username already taken, try a different name")
 				file.close()
-			else:
-				self.registerMessage.configure(text = "Max number of users have been reached")
+			else: #if 10 or more users
+				self.registerMessage.configure(text = "Max number of users has been reached")
 				self.registerMessage2.configure(text = "")
 				file.close()
 
-		else:
+		else: #passwords don't match
 			self.registerMessage.configure(text = "Passwords do not match, try again")
 			self.registerMessage2.configure(text="")
 			file.close()
