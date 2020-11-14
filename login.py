@@ -94,7 +94,7 @@ class Login:
 				file.write(p2 + "\n")
 				file.close() #close this file
 				file = open("parameters.txt","a")
-				file.write("\n"+uName+"\nAOO\nAAI\nVOO\nVVI\nLRL") # when a new user is registered they get their own set of programmable parameteres added to the parameters file
+				file.write("\n"+uName+"\nAOO\nAAI\nVOO\nVVI\nDOO\nAOOR\nVOOR\nAAIR\nVVIR\nDOOR\nLRL") # when a new user is registered they get their own set of programmable parameteres added to the parameters file
 				file.close() 
 				self.registerMessage2.configure(text = "New User registered")
 
