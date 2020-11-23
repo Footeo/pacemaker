@@ -6,8 +6,7 @@ import settings # settings.init()
 settings.init() #initialize global variables
 
 ##hellos 
-## good bye
-# define the main window 
+
 root = Tk() 
 root.title("Device Control Monitor")
 # sets the geometry of main root window 
