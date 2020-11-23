@@ -19,4 +19,15 @@ AAIR
 VOOR
 VVIR
 DOOR
-LRL
+LRL	10
+URL	20
+MSR	30
+FAVD	20
+VentPW	10
+VRP	20
+Hysteresis	30
+RateSmooth	20
+ActivityThresh	10
+ReactTime	20
+RespFact	30
+RecoveryTime	10

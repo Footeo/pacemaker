@@ -8,7 +8,8 @@ import parameters
 # ALSO; Ask TA about Atrial/Ventricular Sensitivity?? (Do we need to include those)
 # 2. Add unit labels for each input i.e. [ms, V, mV, sec] etc.
 # 3. Add a button to load the most last inputted parameters (may as well make use of the save file)
-# 4. Make sure that the rate adaptive mode inputs make sense as controlled variables. i.e. Do the inputs make sense
+
+# Add a button to each pacing mode screen to transmit the variables for serial communication and when the button it will also display the egram.
 
 
 class Screens:
@@ -38,7 +39,7 @@ class Screens:
 		self.goVVIR = Button(self.contentFrame, text="VVIR SCREEN", command = lambda: self.VVIR()).pack()
 		self.goDOOR = Button(self.contentFrame, text="DOOR SCREEN", command = lambda: self.DOOR()).pack()
 		self.goDDDR = Button(self.contentFrame, text="DDDR SCREEN **", command = lambda: self.DDDR()).pack()
-		self.deviceText = Label(self.optionsFrame, text="Currently connected to 'Oliver's' pacemaker", fg="green").pack()  # add a visual indicator showing when the DCM detects a new PACEMAKER device
+		self.deviceText = Label(self.optionsFrame, text="Currently connected to 'users' pacemaker", fg="green").pack()  # Have to change this value based on the users device
 		self.back = Button(self.optionsFrame, text ="Logout", command = lambda: self.mainScreen()).pack()  # This will be the logout function, have to return to other screen
 	
 	def AOO(self):
@@ -164,8 +165,8 @@ class Screens:
 		self.FixedAVDelayInput = Entry(self.contentFrame)
 		self.FixedAVDelayInput.pack()
 		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude").pack()
-		self.AtrApmlitudeInput = Entry(self.contentFrame)
-		self.AtrApmlitudeInput.pack()
+		self.AtrAmplitudeInput = Entry(self.contentFrame)
+		self.AtrAmplitudeInput.pack()
 		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width").pack()
 		self.AtrPulseWidthInput = Entry(self.contentFrame)
 		self.AtrPulseWidthInput.pack()
@@ -177,7 +178,7 @@ class Screens:
 		self.VentPulseWidthInput.pack()
 
 		#save parameters button - will have to be updated
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeDOO(self.LRLInput.get(),self.URLInput.get(),self.FixedAVDelayInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get())).pack()  # Saves the parameters to the master file
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeDOO(self.LRLInput.get(),self.URLInput.get(),self.FixedAVDelayInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
@@ -199,8 +200,8 @@ class Screens:
 		self.MaxSensorRateInput = Entry(self.contentFrame)
 		self.MaxSensorRateInput.pack()
 		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude").pack()
-		self.AtrApmlitudeInput = Entry(self.contentFrame)
-		self.AtrApmlitudeInput.pack()
+		self.AtrAmplitudeInput = Entry(self.contentFrame)
+		self.AtrAmplitudeInput.pack()
 		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width").pack()
 		self.AtrPulseWidthInput = Entry(self.contentFrame)
 		self.AtrPulseWidthInput.pack()
@@ -218,7 +219,7 @@ class Screens:
 		self.RecoveryTimeInput.pack()
 
 		# call the write fuctions stored in the parameters.py module
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
 		
 		# Other menu buttons
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
@@ -241,8 +242,8 @@ class Screens:
 		self.MaxSensorRateInput = Entry(self.contentFrame)
 		self.MaxSensorRateInput.pack()
 		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude").pack()
-		self.AtrApmlitudeInput = Entry(self.contentFrame)
-		self.AtrApmlitudeInput.pack()
+		self.AtrAmplitudeInput = Entry(self.contentFrame)
+		self.AtrAmplitudeInput.pack()
 		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width").pack()
 		self.AtrPulseWidthInput = Entry(self.contentFrame)
 		self.AtrPulseWidthInput.pack()
@@ -269,7 +270,7 @@ class Screens:
 		self.RecoveryTimeInput.pack()
 
 		# Going to have to modify this button functions
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAAIR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.ARPInput.get(),self.HysteresisInput.get(),self.RateSmoothingInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAAIR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.ARPInput.get(),self.HysteresisInput.get(),self.RateSmoothingInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
@@ -361,7 +362,7 @@ class Screens:
 		self.RecoveryTimeInput.pack()
 
 		# write inputs to file
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVVIR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.VentApmlitudeInput.get(),self.VentPulseWidthInput.get(),self.VRPInput.get(),self.HysteresisInput.get(),self.RateSmoothingInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVVIR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.VRPInput.get(),self.HysteresisInput.get(),self.RateSmoothingInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
@@ -386,8 +387,8 @@ class Screens:
 		self.FixedAVDelayInput = Entry(self.contentFrame)
 		self.FixedAVDelayInput.pack()
 		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude").pack()
-		self.AtrApmlitudeInput = Entry(self.contentFrame)
-		self.AtrApmlitudeInput.pack()
+		self.AtrAmplitudeInput = Entry(self.contentFrame)
+		self.AtrAmplitudeInput.pack()
 		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width").pack()
 		self.AtrPulseWidthInput = Entry(self.contentFrame)
 		self.AtrPulseWidthInput.pack()
@@ -411,7 +412,7 @@ class Screens:
 		self.RecoveryTimeInput.pack()
 
 		#save parameters button - will have to be updated
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeDOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.FixedAVDelayInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.VentApmlitudeInput.get(),self.VentPulseWidthInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeDOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.FixedAVDelayInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
