@@ -3,6 +3,8 @@ from screens import *
 from login import *
 import settings # settings.init()
 
+## Making changes to main to see what happens
+
 settings.init() #initialize global variables
 
 # define the main window 
