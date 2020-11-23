@@ -5,6 +5,8 @@ import settings # settings.init()
 
 settings.init() #initialize global variables
 
+##hellos 
+
 # define the main window 
 root = Tk() 
 root.title("Device Control Monitor")
