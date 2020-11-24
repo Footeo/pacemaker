@@ -51,7 +51,7 @@ def writeAOO(LRL,URL,AtrAmp,AtrPW):
                         file.close()
                         break
 
-def writeAAI(LRL,URL,AtrAmp,AtrPW,ARP): ## Same variables a write AAI just different naming convention
+def writeAAI(LRL,URL,AtrAmp,AtrPW,ARP,AtrSense): ## Same variables a write AAI just different naming convention
     file = open("parameters.txt","r")
     lines = file.readlines()
     file.close()
@@ -66,14 +66,15 @@ def writeAAI(LRL,URL,AtrAmp,AtrPW,ARP): ## Same variables a write AAI just diffe
                 if (j == "AAI"):
                     yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
                     if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
-                        #delete next 5 values
-                        del lines[count:count+5] 
+                        #delete values
+                        del lines[count:count+6] 
                         
                         lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
                         lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW)
-                        lines.insert(count+4, "\n"+"ARP"+"\t"+ARP+"\n")
+                        lines.insert(count+4, "\n"+"ARP"+"\t"+ARP)
+                        lines.insert(count+5, "\n"+"AtrSense"+"\t"+AtrSense+"\n")
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -88,7 +89,8 @@ def writeAAI(LRL,URL,AtrAmp,AtrPW,ARP): ## Same variables a write AAI just diffe
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
                         lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW)
-                        lines.insert(count+4, "\n"+"ARP"+"\t"+ARP+"\n")
+                        lines.insert(count+4, "\n"+"ARP"+"\t"+ARP)
+                        lines.insert(count+5, "\n"+"AtrSense"+"\t"+AtrSense+"\n")
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -143,7 +145,7 @@ def writeVOO(LRL,URL,VentAmp,VentPW):
                         file.close()
                         break
 
-def writeVVI(LRL,URL,VentAmp,VentPW,VRP):  ## This is an edge test case wrt this being at the end of the file, it doesn't work the same. Ghetto solution is to Write LRL during registration, works now
+def writeVVI(LRL,URL,VentAmp,VentPW,VRP,VentSense):  ## This is an edge test case wrt this being at the end of the file, it doesn't work the same. Ghetto solution is to Write LRL during registration, works now
     file = open("parameters.txt","r")
     lines = file.readlines()
     file.close()
@@ -161,14 +163,15 @@ def writeVVI(LRL,URL,VentAmp,VentPW,VRP):  ## This is an edge test case wrt this
                     yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
                     print(yesLRL)
                     if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
-                        #delete next 5 values
-                        del lines[count:count+5] 
+                        #delete values
+                        del lines[count:count+6] 
                         
                         lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"VentAmp"+"\t"+VentAmp)
                         lines.insert(count+3, "\n"+"VentPW"+"\t"+VentPW)
-                        lines.insert(count+4, "\n"+"VRP"+"\t"+VRP+"\n")
+                        lines.insert(count+4, "\n"+"VRP"+"\t"+VRP)
+                        lines.insert(count+5, "\n"+"VentSense"+"\t"+VentSense+"\n")
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -184,7 +187,8 @@ def writeVVI(LRL,URL,VentAmp,VentPW,VRP):  ## This is an edge test case wrt this
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"VentAmp"+"\t"+VentAmp)
                         lines.insert(count+3, "\n"+"VentPW"+"\t"+VentPW)
-                        lines.insert(count+4, "\n"+"VRP"+"\t"+VRP+"\n")
+                        lines.insert(count+4, "\n"+"VRP"+"\t"+VRP)
+                        lines.insert(count+5, "\n"+"VentSense"+"\t"+VentSense+"\n")
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -195,7 +199,7 @@ def writeVVI(LRL,URL,VentAmp,VentPW,VRP):  ## This is an edge test case wrt this
 
 ## NEW!!
 ## EDIT FUNCTION PARAMETERS AND INTERNALS
-# writeDOO(self.LRLInput.get(),self.URLInput.get(),self.FixedAVDelayInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get())
+
 def writeDOO(LRL,URL,FAVD,AtrAmp,AtrPW,VentAmp,VentPW):
     file = open("parameters.txt","r")
     lines = file.readlines()
@@ -305,8 +309,8 @@ def writeAOOR(LRL,URL,MSR,AtrAmp,AtrPW,ActivityThresh,ReactTime,RespFact,Recover
                         file.close()
                         break
 
-# writeAAIR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.ARPInput.get(),self.HysteresisInput.get(),self.RateSmoothingInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())
-def writeAAIR(LRL,URL,MSR,AtrAmp,AtrPW,ARP,Hysteresis,RateSmooth,ActivityThresh,ReactTime,RespFact,RecoveryTime):
+
+def writeAAIR(LRL,URL,MSR,AtrAmp,AtrPW,ARP,AtrSense,RateSmooth,ActivityThresh,ReactTime,RespFact,RecoveryTime):
     file = open("parameters.txt","r")
     lines = file.readlines()
     file.close()
@@ -331,7 +335,7 @@ def writeAAIR(LRL,URL,MSR,AtrAmp,AtrPW,ARP,Hysteresis,RateSmooth,ActivityThresh,
                         lines.insert(count+3, "\n"+"AtrAmp"+"\t"+AtrAmp)
                         lines.insert(count+4, "\n"+"AtrPW"+"\t"+AtrPW)
                         lines.insert(count+5, "\n"+"ARP"+"\t"+ARP)
-                        lines.insert(count+6, "\n"+"Hysteresis"+"\t"+Hysteresis)
+                        lines.insert(count+6, "\n"+"AtrSense"+"\t"+AtrSense)
                         lines.insert(count+7, "\n"+"RateSmooth"+"\t"+RateSmooth)
                         lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
@@ -354,7 +358,7 @@ def writeAAIR(LRL,URL,MSR,AtrAmp,AtrPW,ARP,Hysteresis,RateSmooth,ActivityThresh,
                         lines.insert(count+3, "\n"+"AtrAmp"+"\t"+AtrAmp)
                         lines.insert(count+4, "\n"+"AtrPW"+"\t"+AtrPW)
                         lines.insert(count+5, "\n"+"ARP"+"\t"+ARP)
-                        lines.insert(count+6, "\n"+"Hysteresis"+"\t"+Hysteresis)
+                        lines.insert(count+6, "\n"+"AtrSense"+"\t"+AtrSense)
                         lines.insert(count+7, "\n"+"RateSmooth"+"\t"+RateSmooth)
                         lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
@@ -427,7 +431,7 @@ def writeVOOR(LRL,URL,MSR,VentAmp,VentPW,ActivityThresh,ReactTime,RespFact,Recov
                         file.close()
                         break
 
-def writeVVIR(LRL,URL,MSR,VentAmp,VentPW,VRP,Hysteresis,RateSmooth,ActivityThresh,ReactTime,RespFact,RecoveryTime):
+def writeVVIR(LRL,URL,MSR,VentAmp,VentPW,VRP,VentSense,RateSmooth,ActivityThresh,ReactTime,RespFact,RecoveryTime):
     file = open("parameters.txt","r")
     lines = file.readlines()
     file.close()
@@ -452,7 +456,7 @@ def writeVVIR(LRL,URL,MSR,VentAmp,VentPW,VRP,Hysteresis,RateSmooth,ActivityThres
                         lines.insert(count+3, "\n"+"VentAmp"+"\t"+VentAmp)
                         lines.insert(count+4, "\n"+"VentPW"+"\t"+VentPW)
                         lines.insert(count+5, "\n"+"VRP"+"\t"+VRP)
-                        lines.insert(count+6, "\n"+"Hysteresis"+"\t"+Hysteresis)
+                        lines.insert(count+6, "\n"+"VentSense"+"\t"+VentSense)
                         lines.insert(count+7, "\n"+"RateSmooth"+"\t"+RateSmooth)
                         lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
@@ -475,7 +479,7 @@ def writeVVIR(LRL,URL,MSR,VentAmp,VentPW,VRP,Hysteresis,RateSmooth,ActivityThres
                         lines.insert(count+3, "\n"+"VentAmp"+"\t"+VentAmp)
                         lines.insert(count+4, "\n"+"VentPW"+"\t"+VentPW)
                         lines.insert(count+5, "\n"+"VRP"+"\t"+VRP)
-                        lines.insert(count+6, "\n"+"Hysteresis"+"\t"+Hysteresis)
+                        lines.insert(count+6, "\n"+"VentSense"+"\t"+VentSense)
                         lines.insert(count+7, "\n"+"RateSmooth"+"\t"+RateSmooth)
                         lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
