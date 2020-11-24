@@ -3,6 +3,7 @@ from screens import *
 from login import *
 import settings # settings.init()
 import serial
+from struct import *
 
 settings.init() #initialize global variables
 
@@ -38,6 +39,11 @@ loginScreen.loginDisplay() ## call the login screen
 # This method assums no timeout is needed 
 ser = serial.Serial('COM1') #Modify the serial port name here
 ser.write("TestTest") # Write smtg onto the port
+
+# Serial packets. Unpack to receive. Pack to send.
+pack(fmt, v1, v2, ...) # Replace the arguments
+unpack(fmt, string) # Replace the arguments
+
 ser.close()
 
 # mainloop, runs infinitely 
