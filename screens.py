@@ -3,12 +3,10 @@ from tkinter import *
 import parameters
 
 #NOTES from Oliver
-# 1. Add limits to the inputs, i.e. once a user passes an input check to see if it is within the correct range, alert them if it isn't. 
+# 1. Add limits to the inputs, i.e. once a user passes an input check to see if it is within the correct range, alert them if it isn't. Also need to check for things like LRL > URL
 # /\ Check table 7 in PACEMAKER Document
-# ALSO; Ask TA about Atrial/Ventricular Sensitivity?? (Do we need to include those)
-# 2. Add unit labels for each input i.e. [ms, V, mV, sec] etc.
-# 3. Add a button to load the most last inputted parameters (may as well make use of the save file)
-
+# 2. Add a button to load the last inputted parameters (may as well make use of the save file)
+# 3. Work on serial communication functions (create the bones of the functions and change the arguments when Zuri informs us what the byte sizes are)
 # Add a button to each pacing mode screen to transmit the variables for serial communication and when the button it will also display the egram.
 
 
@@ -40,23 +38,23 @@ class Screens:
 		self.goDOOR = Button(self.contentFrame, text="DOOR SCREEN", command = lambda: self.DOOR()).pack()
 		self.goDDDR = Button(self.contentFrame, text="DDDR SCREEN **", command = lambda: self.DDDR()).pack()
 		self.deviceText = Label(self.optionsFrame, text="Currently connected to 'users' pacemaker", fg="green").pack()  # Have to change this value based on the users device
-		self.back = Button(self.optionsFrame, text ="Logout", command = lambda: self.mainScreen()).pack()  # This will be the logout function, have to return to other screen
+		# self.back = Button(self.optionsFrame, text ="Logout", command = lambda: self.mainScreen()).pack()  # This will be the logout function, have to return to other screen
 	
 	def AOO(self):
 		self.removeContent()
 		self.AOOcontent = Label(self.contentFrame, text ="AOO Programmable Variables").pack()
 
 		#programmable parameters inputs
-		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
+		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit (BPM)").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
-		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit").pack()
+		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit (BPM)").pack()
 		self.URLInput = Entry(self.contentFrame)
 		self.URLInput.pack()
-		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude").pack()
+		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude (V)").pack()
 		self.AtrApmlitudeInput = Entry(self.contentFrame)
 		self.AtrApmlitudeInput.pack()
-		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width").pack()
+		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width (ms)").pack()
 		self.AtrPulseWidthInput = Entry(self.contentFrame)
 		self.AtrPulseWidthInput.pack()
 		# call the write fuctions stored in the parameters.py module
@@ -72,23 +70,26 @@ class Screens:
 		self.AAIcontent = Label(self.contentFrame, text ="AAI Programmable Variables").pack()
 				
 		#programmable parameters inputs
-		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
+		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit (BPM)").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
-		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit").pack()
+		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit (BPM)").pack()
 		self.URLInput = Entry(self.contentFrame)
 		self.URLInput.pack()
-		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude").pack()
+		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude (V)").pack()
 		self.AtrApmlitudeInput = Entry(self.contentFrame)
 		self.AtrApmlitudeInput.pack()
-		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width").pack()
+		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width (ms)").pack()
 		self.AtrPulseWidthInput = Entry(self.contentFrame)
 		self.AtrPulseWidthInput.pack()
-		self.ARP = Label(self.contentFrame, text="Atrial Refractory Period (ARP)").pack()
+		self.ARP = Label(self.contentFrame, text="Atrial Refractory Period (ms)").pack()
 		self.ARPInput = Entry(self.contentFrame)
 		self.ARPInput.pack()
-
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAAI(self.LRLInput.get(),self.URLInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.ARPInput.get())).pack()  # Saves the parameters to the master file
+		self.AtrSensitivitiyLabel = Label(self.contentFrame, text="Atrial Sensitivity (V)").pack()  
+		self.AtrSensitivityInput = Entry(self.contentFrame)
+		self.AtrSensitivityInput.pack()
+		
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAAI(self.LRLInput.get(),self.URLInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.ARPInput.get(),self.AtrSensitivityInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
@@ -101,18 +102,19 @@ class Screens:
 		self.VOOcontent = Label(self.contentFrame, text ="VOO Programmable Variables").pack()
 				
 		# programmable parameters inputs
-		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
+		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit (BPM)").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
-		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit").pack()
+		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit (BPM)").pack()
 		self.URLInput = Entry(self.contentFrame)
 		self.URLInput.pack()
-		self.VentAmplitudeLabel = Label(self.contentFrame, text="Ventricular Amplitude").pack()
+		self.VentAmplitudeLabel = Label(self.contentFrame, text="Ventricular Amplitude (V)").pack()
 		self.VentAmplitudeInput = Entry(self.contentFrame)
 		self.VentAmplitudeInput.pack()
-		self.VentPulseWidthLabel = Label(self.contentFrame, text="Ventricular Pulse Width").pack()
+		self.VentPulseWidthLabel = Label(self.contentFrame, text="Ventricular Pulse Width (ms)").pack()
 		self.VentPulseWidthInput = Entry(self.contentFrame)
 		self.VentPulseWidthInput.pack()
+
 		#save parameters button
 		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVOO(self.LRLInput.get(),self.URLInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get())).pack()  # Saves the parameters to the master file
 
@@ -127,23 +129,26 @@ class Screens:
 		self.VIIcontent = Label(self.contentFrame, text ="VVI Programmable Variables").pack()
 				
 		# programmable parameters inputs
-		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
+		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit (BPM)").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
-		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit").pack()
+		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit (BPM)").pack()
 		self.URLInput = Entry(self.contentFrame)
 		self.URLInput.pack()
-		self.VentAmplitudeLabel = Label(self.contentFrame, text="Ventricular Amplitude").pack()
+		self.VentAmplitudeLabel = Label(self.contentFrame, text="Ventricular Amplitude (V)").pack()
 		self.VentAmplitudeInput = Entry(self.contentFrame)
 		self.VentAmplitudeInput.pack()
-		self.VentPulseWidthLabel = Label(self.contentFrame, text="Ventricular Pulse Width").pack()
+		self.VentPulseWidthLabel = Label(self.contentFrame, text="Ventricular Pulse Width (ms)").pack()
 		self.VentPulseWidthInput = Entry(self.contentFrame)
 		self.VentPulseWidthInput.pack()
-		self.VRP = Label(self.contentFrame, text="Ventricular Refractory Period (VRP)").pack()
+		self.VRP = Label(self.contentFrame, text="Ventricular Refractory Period (ms)").pack()
 		self.VRPInput = Entry(self.contentFrame)
 		self.VRPInput.pack()
+		self.VentSensitivitiyLabel = Label(self.contentFrame, text="Ventricular Sensitivity (V)").pack()  ##HAVE TO CHANGE IN PARAMETERS FILE
+		self.VentSensitivityInput = Entry(self.contentFrame)
+		self.VentSensitivityInput.pack()
 
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVVI(self.LRLInput.get(),self.URLInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.VRPInput.get())).pack()  # Saves the parameters to the master file
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVVI(self.LRLInput.get(),self.URLInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.VRPInput.get(),self.VentSensitivityInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
@@ -155,25 +160,25 @@ class Screens:
 		self.DOOcontent = Label(self.contentFrame, text ="DOO Programmable Variables").pack()
 				
 		# programmable parameters inputs
-		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
+		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit (BPM)").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
-		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit").pack()
+		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit (BPM)").pack()
 		self.URLInput = Entry(self.contentFrame)
 		self.URLInput.pack()
 		self.FixedAVDelayLabel = Label(self.contentFrame, text="Fixed AV Delay (ms)").pack()
 		self.FixedAVDelayInput = Entry(self.contentFrame)
 		self.FixedAVDelayInput.pack()
-		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude").pack()
+		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude (V)").pack()
 		self.AtrAmplitudeInput = Entry(self.contentFrame)
 		self.AtrAmplitudeInput.pack()
-		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width").pack()
+		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width (ms)").pack()
 		self.AtrPulseWidthInput = Entry(self.contentFrame)
 		self.AtrPulseWidthInput.pack()
-		self.VentAmplitudeLabel = Label(self.contentFrame, text="Ventricular Amplitude").pack()
+		self.VentAmplitudeLabel = Label(self.contentFrame, text="Ventricular Amplitude (V)").pack()
 		self.VentAmplitudeInput = Entry(self.contentFrame)
 		self.VentAmplitudeInput.pack()
-		self.VentPulseWidthLabel = Label(self.contentFrame, text="Ventricular Pulse Width").pack()
+		self.VentPulseWidthLabel = Label(self.contentFrame, text="Ventricular Pulse Width (ms)").pack()
 		self.VentPulseWidthInput = Entry(self.contentFrame)
 		self.VentPulseWidthInput.pack()
 
@@ -190,36 +195,38 @@ class Screens:
 		self.AOORcontent = Label(self.contentFrame, text ="AOOR Programmable Variables").pack()
 
 		#programmable parameters inputs
-		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
+		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit (BPM)").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
-		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit").pack()
+		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit (BPM)").pack()
 		self.URLInput = Entry(self.contentFrame)
 		self.URLInput.pack()
-		self.MaxSensorRateLabel = Label(self.contentFrame, text="Maximum Sensor Rate (ms?)").pack()
+		self.MaxSensorRateLabel = Label(self.contentFrame, text="Maximum Sensor Rate (BPM)").pack()
 		self.MaxSensorRateInput = Entry(self.contentFrame)
 		self.MaxSensorRateInput.pack()
-		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude").pack()
+		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude (V)").pack()
 		self.AtrAmplitudeInput = Entry(self.contentFrame)
 		self.AtrAmplitudeInput.pack()
-		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width").pack()
+		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width (ms)").pack()
 		self.AtrPulseWidthInput = Entry(self.contentFrame)
 		self.AtrPulseWidthInput.pack()
 		self.ActivityThresholdLabel = Label(self.contentFrame, text="Activity Threshold").pack()
-		self.ActivityThresholdInput	= Entry(self.contentFrame)
+		self.ATI = StringVar(self.contentFrame) #dummy definition
+		self.ATI.set("Medium") #Default
+		self.ActivityThresholdInput	= OptionMenu(self.contentFrame,self.ATI,"High","Medium","Low") 
 		self.ActivityThresholdInput.pack()
-		self.ReactionTimeLabel = Label(self.contentFrame, text="Reaction Time").pack()
+		self.ReactionTimeLabel = Label(self.contentFrame, text="Reaction Time (ms)").pack()
 		self.ReactionTimeInput = Entry(self.contentFrame)
 		self.ReactionTimeInput.pack()
 		self.ResponseFactorLabel = Label(self.contentFrame, text="Response Factor").pack()
 		self.ResponseFactorInput = Entry(self.contentFrame)
 		self.ResponseFactorInput.pack()
-		self.RecoveryTimeLabel = Label(self.contentFrame, text="Recovery Time").pack()
+		self.RecoveryTimeLabel = Label(self.contentFrame, text="Recovery Time (min)").pack()
 		self.RecoveryTimeInput = Entry(self.contentFrame)
 		self.RecoveryTimeInput.pack()
 
 		# call the write fuctions stored in the parameters.py module
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.ATI.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
 		
 		# Other menu buttons
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
@@ -232,45 +239,52 @@ class Screens:
 		self.AAIRcontent = Label(self.contentFrame, text ="AAIR Programmable Variables").pack()
 				
 		#programmable parameters inputs
-		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
+		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit (BPM)").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
-		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit").pack()
+		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit (BPM)").pack()
 		self.URLInput = Entry(self.contentFrame)
 		self.URLInput.pack()
-		self.MaxSensorRateLabel = Label(self.contentFrame, text="Maximum Sensor Rate (ms?)").pack()
+		self.MaxSensorRateLabel = Label(self.contentFrame, text="Maximum Sensor Rate (BPM)").pack()
 		self.MaxSensorRateInput = Entry(self.contentFrame)
 		self.MaxSensorRateInput.pack()
-		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude").pack()
+		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude (V)").pack()
 		self.AtrAmplitudeInput = Entry(self.contentFrame)
 		self.AtrAmplitudeInput.pack()
-		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width").pack()
+		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width (ms)").pack()
 		self.AtrPulseWidthInput = Entry(self.contentFrame)
 		self.AtrPulseWidthInput.pack()
-		self.ARP = Label(self.contentFrame, text="Atrial Refractory Period (ARP)").pack()
+		self.ARP = Label(self.contentFrame, text="Atrial Refractory Period (ms)").pack()
 		self.ARPInput = Entry(self.contentFrame)
 		self.ARPInput.pack()
-		self.HysteresisLabel = Label(self.contentFrame, text="Hysteresis").pack()
-		self.HysteresisInput = Entry(self.contentFrame)
-		self.HysteresisInput.pack()
-		self.RateSmoothingLabel = Label(self.contentFrame, text="Rate Smoothing").pack()
-		self.RateSmoothingInput = Entry(self.contentFrame)
+		self.AtrSensitivitiyLabel = Label(self.contentFrame, text="Atrial Sensitivity (V)").pack() 
+		self.AtrSensitivityInput = Entry(self.contentFrame)
+		self.AtrSensitivityInput.pack()
+		# self.HysteresisLabel = Label(self.contentFrame, text="Hysteresis").pack()
+		# self.HysteresisInput = Entry(self.contentFrame)
+		# self.HysteresisInput.pack() 
+		self.RateSmoothingLabel = Label(self.contentFrame, text="Rate Smoothing (%)").pack()
+		self.RS = StringVar(self.contentFrame)
+		self.RS.set("OFF") #Default
+		self.RateSmoothingInput = OptionMenu(self.contentFrame,self.RS,"OFF","3","6","9","12","15","18","21","25")
 		self.RateSmoothingInput.pack()
 		self.ActivityThresholdLabel = Label(self.contentFrame, text="Activity Threshold").pack()
-		self.ActivityThresholdInput	= Entry(self.contentFrame)
+		self.ATI = StringVar(self.contentFrame) 
+		self.ATI.set("Medium") #Default
+		self.ActivityThresholdInput	= OptionMenu(self.contentFrame,self.ATI,"High","Medium","Low") 
 		self.ActivityThresholdInput.pack()
-		self.ReactionTimeLabel = Label(self.contentFrame, text="Reaction Time").pack()
+		self.ReactionTimeLabel = Label(self.contentFrame, text="Reaction Time (ms)").pack()
 		self.ReactionTimeInput = Entry(self.contentFrame)
 		self.ReactionTimeInput.pack()
-		self.ResponseFactorLabel = Label(self.contentFrame, text="Response Factor").pack()
+		self.ResponseFactorLabel = Label(self.contentFrame, text="Response Factor").pack()  ## this value should be from 1-16 (it's a factor, so no units)
 		self.ResponseFactorInput = Entry(self.contentFrame)
 		self.ResponseFactorInput.pack()
-		self.RecoveryTimeLabel = Label(self.contentFrame, text="Recovery Time").pack()
+		self.RecoveryTimeLabel = Label(self.contentFrame, text="Recovery Time (min)").pack()
 		self.RecoveryTimeInput = Entry(self.contentFrame)
 		self.RecoveryTimeInput.pack()
 
 		# Going to have to modify this button functions
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAAIR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.ARPInput.get(),self.HysteresisInput.get(),self.RateSmoothingInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAAIR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.ARPInput.get(),self.AtrSensitivityInput.get(),self.RS.get(),self.ATI.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
@@ -282,37 +296,39 @@ class Screens:
 		self.VOORcontent = Label(self.contentFrame, text ="VOOR Programmable Variables").pack()
 				
 		# programmable parameters inputs
-		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
+		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit (BPM)").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
-		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit").pack()
+		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit (BPM)").pack()
 		self.URLInput = Entry(self.contentFrame)
 		self.URLInput.pack()
-		self.MaxSensorRateLabel = Label(self.contentFrame, text="Maximum Sensor Rate (ms?)").pack()
+		self.MaxSensorRateLabel = Label(self.contentFrame, text="Maximum Sensor Rate (BPM)").pack()
 		self.MaxSensorRateInput = Entry(self.contentFrame)
 		self.MaxSensorRateInput.pack()
-		self.VentAmplitudeLabel = Label(self.contentFrame, text="Ventricular Amplitude").pack()
+		self.VentAmplitudeLabel = Label(self.contentFrame, text="Ventricular Amplitude (V)").pack()
 		self.VentAmplitudeInput = Entry(self.contentFrame)
 		self.VentAmplitudeInput.pack()
-		self.VentPulseWidthLabel = Label(self.contentFrame, text="Ventricular Pulse Width").pack()
+		self.VentPulseWidthLabel = Label(self.contentFrame, text="Ventricular Pulse Width (ms)").pack()
 		self.VentPulseWidthInput = Entry(self.contentFrame)
 		self.VentPulseWidthInput.pack()
 		self.ActivityThresholdLabel = Label(self.contentFrame, text="Activity Threshold").pack()
-		self.ActivityThresholdInput	= Entry(self.contentFrame)
+		self.ATI = StringVar(self.contentFrame) 
+		self.ATI.set("Medium") #Default
+		self.ActivityThresholdInput	= OptionMenu(self.contentFrame,self.ATI,"High","Medium","Low") 
 		self.ActivityThresholdInput.pack()
-		self.ReactionTimeLabel = Label(self.contentFrame, text="Reaction Time").pack()
+		self.ReactionTimeLabel = Label(self.contentFrame, text="Reaction Time (ms)").pack()
 		self.ReactionTimeInput = Entry(self.contentFrame)
 		self.ReactionTimeInput.pack()
-		self.ResponseFactorLabel = Label(self.contentFrame, text="Response Factor").pack()
+		self.ResponseFactorLabel = Label(self.contentFrame, text="Response Factor").pack() #Factor so no units should be 1-16 range
 		self.ResponseFactorInput = Entry(self.contentFrame)
 		self.ResponseFactorInput.pack()
-		self.RecoveryTimeLabel = Label(self.contentFrame, text="Recovery Time").pack()
+		self.RecoveryTimeLabel = Label(self.contentFrame, text="Recovery Time (min)").pack() 
 		self.RecoveryTimeInput = Entry(self.contentFrame)
 		self.RecoveryTimeInput.pack()
 
 
 		# Going to have to modify this button function
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.ATI.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
@@ -324,45 +340,52 @@ class Screens:
 		self.VIIRcontent = Label(self.contentFrame, text ="VVIR Programmable Variables").pack()
 				
 		# programmable parameters inputs
-		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
+		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit (BPM)").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
-		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit").pack()
+		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit (BPM)").pack()
 		self.URLInput = Entry(self.contentFrame)
 		self.URLInput.pack()
-		self.MaxSensorRateLabel = Label(self.contentFrame, text="Maximum Sensor Rate (ms?)").pack()
+		self.MaxSensorRateLabel = Label(self.contentFrame, text="Maximum Sensor Rate (BPM)").pack()
 		self.MaxSensorRateInput = Entry(self.contentFrame)
 		self.MaxSensorRateInput.pack()
-		self.VentAmplitudeLabel = Label(self.contentFrame, text="Ventricular Amplitude").pack()
+		self.VentAmplitudeLabel = Label(self.contentFrame, text="Ventricular Amplitude (V)").pack()
 		self.VentAmplitudeInput = Entry(self.contentFrame)
 		self.VentAmplitudeInput.pack()
-		self.VentPulseWidthLabel = Label(self.contentFrame, text="Ventricular Pulse Width").pack()
+		self.VentPulseWidthLabel = Label(self.contentFrame, text="Ventricular Pulse Width (ms)").pack()
 		self.VentPulseWidthInput = Entry(self.contentFrame)
 		self.VentPulseWidthInput.pack()
-		self.VRP = Label(self.contentFrame, text="Ventricular Refractory Period (VRP)").pack()
+		self.VRP = Label(self.contentFrame, text="Ventricular Refractory Period (ms)").pack()
 		self.VRPInput = Entry(self.contentFrame)
 		self.VRPInput.pack()
-		self.HysteresisLabel = Label(self.contentFrame, text="Hysteresis").pack()
-		self.HysteresisInput = Entry(self.contentFrame)
-		self.HysteresisInput.pack()
-		self.RateSmoothingLabel = Label(self.contentFrame, text="Rate Smoothing").pack()
-		self.RateSmoothingInput = Entry(self.contentFrame)
+		self.VentSensitivitiyLabel = Label(self.contentFrame, text="Ventricular Sensitivity (V)").pack()  
+		self.VentSensitivityInput = Entry(self.contentFrame)
+		self.VentSensitivityInput.pack()
+		# self.HysteresisLabel = Label(self.contentFrame, text="Hysteresis").pack()
+		# self.HysteresisInput = Entry(self.contentFrame)
+		# self.HysteresisInput.pack()
+		self.RateSmoothingLabel = Label(self.contentFrame, text="Rate Smoothing (%)").pack()
+		self.RS = StringVar(self.contentFrame)
+		self.RS.set("OFF") #Default
+		self.RateSmoothingInput = OptionMenu(self.contentFrame,self.RS,"OFF","3","6","9","12","15","18","21","25")
 		self.RateSmoothingInput.pack()
 		self.ActivityThresholdLabel = Label(self.contentFrame, text="Activity Threshold").pack()
-		self.ActivityThresholdInput	= Entry(self.contentFrame)
+		self.ATI = StringVar(self.contentFrame) 
+		self.ATI.set("Medium") #Default
+		self.ActivityThresholdInput	= OptionMenu(self.contentFrame,self.ATI,"High","Medium","Low") 
 		self.ActivityThresholdInput.pack()
-		self.ReactionTimeLabel = Label(self.contentFrame, text="Reaction Time").pack()
+		self.ReactionTimeLabel = Label(self.contentFrame, text="Reaction Time (ms)").pack()
 		self.ReactionTimeInput = Entry(self.contentFrame)
 		self.ReactionTimeInput.pack()
 		self.ResponseFactorLabel = Label(self.contentFrame, text="Response Factor").pack()
 		self.ResponseFactorInput = Entry(self.contentFrame)
 		self.ResponseFactorInput.pack()
-		self.RecoveryTimeLabel = Label(self.contentFrame, text="Recovery Time").pack()
+		self.RecoveryTimeLabel = Label(self.contentFrame, text="Recovery Time (min)").pack()
 		self.RecoveryTimeInput = Entry(self.contentFrame)
 		self.RecoveryTimeInput.pack()
 
 		# write inputs to file
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVVIR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.VRPInput.get(),self.HysteresisInput.get(),self.RateSmoothingInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVVIR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.VRPInput.get(),self.VentSensitivityInput.get(),self.RS.get(),self.ATI.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
@@ -374,50 +397,57 @@ class Screens:
 		self.DOORcontent = Label(self.contentFrame, text ="DOOR Programmable Variables").pack()
 				
 		# programmable parameters inputs
-		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit").pack()
+		self.LRLLabel = Label(self.contentFrame, text = "Lower Rate Limit (BPM)").pack()
 		self.LRLInput = Entry(self.contentFrame)
 		self.LRLInput.pack()
-		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit").pack()
+		self.URLLabel = Label(self.contentFrame, text="Upper Rate Limit (BPM)").pack()
 		self.URLInput = Entry(self.contentFrame)
 		self.URLInput.pack()
-		self.MaxSensorRateLabel = Label(self.contentFrame, text="Maximum Sensor Rate (ms?)").pack()
+		self.MaxSensorRateLabel = Label(self.contentFrame, text="Maximum Sensor Rate (BPM)").pack()
 		self.MaxSensorRateInput = Entry(self.contentFrame)
 		self.MaxSensorRateInput.pack()
-		self.FixedAVDelayLabel = Label(self.contentFrame, text="Fixed AV Delay (ms)").pack()
+		self.FixedAVDelayLabel = Label(self.contentFrame, text="Fixed AV Delay (V)").pack()
 		self.FixedAVDelayInput = Entry(self.contentFrame)
 		self.FixedAVDelayInput.pack()
-		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude").pack()
+		self.AtrAmplitudeLabel = Label(self.contentFrame, text="Atrial Amplitude (V)").pack()
 		self.AtrAmplitudeInput = Entry(self.contentFrame)
 		self.AtrAmplitudeInput.pack()
-		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width").pack()
+		self.AtrPulseWidthLabel = Label(self.contentFrame, text="Atrial Pulse Width (ms)").pack()
 		self.AtrPulseWidthInput = Entry(self.contentFrame)
 		self.AtrPulseWidthInput.pack()
-		self.VentAmplitudeLabel = Label(self.contentFrame, text="Ventricular Amplitude").pack()
+		self.VentAmplitudeLabel = Label(self.contentFrame, text="Ventricular Amplitude (V)").pack()
 		self.VentAmplitudeInput = Entry(self.contentFrame)
 		self.VentAmplitudeInput.pack()
-		self.VentPulseWidthLabel = Label(self.contentFrame, text="Ventricular Pulse Width").pack()
+		self.VentPulseWidthLabel = Label(self.contentFrame, text="Ventricular Pulse Width (ms)").pack()
 		self.VentPulseWidthInput = Entry(self.contentFrame)
 		self.VentPulseWidthInput.pack()
-		self.ActivityThresholdLabel = Label(self.contentFrame, text="Activity Threshold").pack()
-		self.ActivityThresholdInput	= Entry(self.contentFrame)
+		self.ActivityThresholdLabel = Label(self.contentFrame, text="Activity Threshold ").pack()
+		self.ATI = StringVar(self.contentFrame) 
+		self.ATI.set("Medium") #Default
+		self.ActivityThresholdInput	= OptionMenu(self.contentFrame,self.ATI,"High","Medium","Low") 
 		self.ActivityThresholdInput.pack()
-		self.ReactionTimeLabel = Label(self.contentFrame, text="Reaction Time").pack()
+		self.ReactionTimeLabel = Label(self.contentFrame, text="Reaction Time (ms)").pack()
 		self.ReactionTimeInput = Entry(self.contentFrame)
 		self.ReactionTimeInput.pack()
 		self.ResponseFactorLabel = Label(self.contentFrame, text="Response Factor").pack()
 		self.ResponseFactorInput = Entry(self.contentFrame)
 		self.ResponseFactorInput.pack()
-		self.RecoveryTimeLabel = Label(self.contentFrame, text="Recovery Time").pack()
+		self.RecoveryTimeLabel = Label(self.contentFrame, text="Recovery Time (min)").pack()
 		self.RecoveryTimeInput = Entry(self.contentFrame)
 		self.RecoveryTimeInput.pack()
 
 		#save parameters button - will have to be updated
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeDOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.FixedAVDelayInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeDOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.FixedAVDelayInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.ATI.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: self.colorTxRx(1)).pack(side=LEFT)
 		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
+
+
+# Test case idea, go through every piece of text to check that the units make sense
+# Try to break the stuff 
+
 
 
 ## BONUS (Only do once all else is done)  
@@ -477,8 +507,9 @@ class Screens:
 		self.ATRDurationInput = Entry(self.contentFrame)
 		self.ATRDurationInput.pack()
 		self.ActivityThresholdLabel = Label(self.contentFrame, text="Activity Threshold").pack()
-		self.ActivityThresholdInput	= Entry(self.contentFrame)
-		self.ActivityThresholdInput.pack()
+		self.ATI = StringVar(self.contentFrame) #IDK why this works but it does (i think the variable just needed to be defined)
+		self.ATI.set("Medium") #Default
+		self.ActivityThresholdInput	= OptionMenu(self.contentFrame,self.ATI,"High","Medium","Low") 
 		self.ReactionTimeLabel = Label(self.contentFrame, text="Reaction Time").pack()
 		self.ReactionTimeInput = Entry(self.contentFrame)
 		self.ReactionTimeInput.pack()

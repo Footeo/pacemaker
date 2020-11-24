@@ -6,7 +6,7 @@ import serial
 
 settings.init() #initialize global variables
 
-##hellos 
+##### YO YOI YOY OYO YYOYOY OYOY OY HOW IT FOES MENANEN
 
 root = Tk() 
 root.title("Device Control Monitor")
