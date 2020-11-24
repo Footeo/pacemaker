@@ -2,6 +2,7 @@ from tkinter import *
 from screens import *
 from login import *
 import settings # settings.init()
+import serial
 
 settings.init() #initialize global variables
 
@@ -33,6 +34,11 @@ screens = Screens(contentFrame, optionsFrame)
 loginScreen  = Login(contentFrame, screens) 
 loginScreen.loginDisplay() ## call the login screen
 
+# Serial Port Configuration
+# This method assums no timeout is needed 
+ser = serial.Serial('COM1') #Modify the serial port name here
+ser.write("TestTest") # Write smtg onto the port
+ser.close()
 
 # mainloop, runs infinitely 
 mainloop() 
