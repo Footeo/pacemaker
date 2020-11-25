@@ -35,16 +35,5 @@ screens = Screens(contentFrame, optionsFrame)
 loginScreen  = Login(contentFrame, screens) 
 loginScreen.loginDisplay() ## call the login screen
 
-# Serial Port Configuration
-# This method assums no timeout is needed 
-ser = serial.Serial('COM1') #Modify the serial port name here
-ser.write("TestTest") # Write smtg onto the port
-
-# Serial packets. Unpack to receive. Pack to send.
-pack(fmt, v1, v2, ...) # Replace the arguments
-unpack(fmt, string) # Replace the arguments
-
-ser.close()
-
 # mainloop, runs infinitely 
 mainloop() 

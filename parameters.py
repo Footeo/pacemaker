@@ -4,6 +4,9 @@ import settings
 # This could probably be cleaned up by making a class, the functions all take different inputs so it would be
 # difficult to make them universal members of a class in that case. 
 
+#Have to make sure that the limits of the variable are correct before this is written to the file.
+
+
 def writeAOO(LRL,URL,AtrAmp,AtrPW):
     file = open("parameters.txt","r")
     lines = file.readlines()
@@ -26,7 +29,7 @@ def writeAOO(LRL,URL,AtrAmp,AtrPW):
                         lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
-                        lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW)
+                        lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW+"\n")
                         
 
                         file = open("parameters.txt","w")
@@ -41,7 +44,7 @@ def writeAOO(LRL,URL,AtrAmp,AtrPW):
                         lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
-                        lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW)
+                        lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW+"\n")
                         
 
                         file = open("parameters.txt","w")
@@ -121,7 +124,7 @@ def writeVOO(LRL,URL,VentAmp,VentPW):
                         lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"VentAmp"+"\t"+VentAmp)
-                        lines.insert(count+3, "\n"+"VentPW"+"\t"+VentPW)
+                        lines.insert(count+3, "\n"+"VentPW"+"\t"+VentPW+"\n")
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -135,7 +138,7 @@ def writeVOO(LRL,URL,VentAmp,VentPW):
                         lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"VentAmp"+"\t"+VentAmp)
-                        lines.insert(count+3, "\n"+"VentPW"+"\t"+VentPW)
+                        lines.insert(count+3, "\n"+"VentPW"+"\t"+VentPW+"\n")
                         
 
                         file = open("parameters.txt","w")
@@ -225,7 +228,7 @@ def writeDOO(LRL,URL,FAVD,AtrAmp,AtrPW,VentAmp,VentPW):
                         lines.insert(count+3, "\n"+"AtrAmp"+"\t"+AtrAmp)
                         lines.insert(count+4, "\n"+"AtrPW"+"\t"+AtrPW)                        
                         lines.insert(count+5, "\n"+"VentAmp"+"\t"+VentAmp)                        
-                        lines.insert(count+6, "\n"+"VentPW"+"\t"+VentPW)
+                        lines.insert(count+6, "\n"+"VentPW"+"\t"+VentPW+"\n")
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -242,7 +245,7 @@ def writeDOO(LRL,URL,FAVD,AtrAmp,AtrPW,VentAmp,VentPW):
                         lines.insert(count+3, "\n"+"AtrAmp"+"\t"+AtrAmp)
                         lines.insert(count+4, "\n"+"AtrPW"+"\t"+AtrPW)                        
                         lines.insert(count+5, "\n"+"VentAmp"+"\t"+VentAmp)                        
-                        lines.insert(count+6, "\n"+"VentPW"+"\t"+VentPW)                        
+                        lines.insert(count+6, "\n"+"VentPW"+"\t"+VentPW+"\n")                        
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -279,7 +282,7 @@ def writeAOOR(LRL,URL,MSR,AtrAmp,AtrPW,ActivityThresh,ReactTime,RespFact,Recover
                         lines.insert(count+5, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+6, "\n"+"ReactTime"+"\t"+ReactTime)
                         lines.insert(count+7, "\n"+"RespFact"+"\t"+RespFact)
-                        lines.insert(count+8, "\n"+"RecoveryTime"+"\t"+RecoveryTime)
+                        lines.insert(count+8, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
                         
 
                         file = open("parameters.txt","w")
@@ -299,7 +302,7 @@ def writeAOOR(LRL,URL,MSR,AtrAmp,AtrPW,ActivityThresh,ReactTime,RespFact,Recover
                         lines.insert(count+5, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+6, "\n"+"ReactTime"+"\t"+ReactTime)
                         lines.insert(count+7, "\n"+"RespFact"+"\t"+RespFact)
-                        lines.insert(count+8, "\n"+"RecoveryTime"+"\t"+RecoveryTime)
+                        lines.insert(count+8, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
                         
 
                         file = open("parameters.txt","w")
@@ -340,7 +343,7 @@ def writeAAIR(LRL,URL,MSR,AtrAmp,AtrPW,ARP,AtrSense,RateSmooth,ActivityThresh,Re
                         lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
                         lines.insert(count+10, "\n"+"RespFact"+"\t"+RespFact)
-                        lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime)
+                        lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
                         
 
                         file = open("parameters.txt","w")
@@ -363,7 +366,7 @@ def writeAAIR(LRL,URL,MSR,AtrAmp,AtrPW,ARP,AtrSense,RateSmooth,ActivityThresh,Re
                         lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
                         lines.insert(count+10, "\n"+"RespFact"+"\t"+RespFact)
-                        lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime)
+                        lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
                         
 
                         file = open("parameters.txt","w")
@@ -401,7 +404,7 @@ def writeVOOR(LRL,URL,MSR,VentAmp,VentPW,ActivityThresh,ReactTime,RespFact,Recov
                         lines.insert(count+5, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+6, "\n"+"ReactTime"+"\t"+ReactTime)
                         lines.insert(count+7, "\n"+"RespFact"+"\t"+RespFact)
-                        lines.insert(count+8, "\n"+"RecoveryTime"+"\t"+RecoveryTime)
+                        lines.insert(count+8, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
                         
 
                         file = open("parameters.txt","w")
@@ -421,7 +424,7 @@ def writeVOOR(LRL,URL,MSR,VentAmp,VentPW,ActivityThresh,ReactTime,RespFact,Recov
                         lines.insert(count+5, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+6, "\n"+"ReactTime"+"\t"+ReactTime)
                         lines.insert(count+7, "\n"+"RespFact"+"\t"+RespFact)
-                        lines.insert(count+8, "\n"+"RecoveryTime"+"\t"+RecoveryTime)
+                        lines.insert(count+8, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
                         
 
                         file = open("parameters.txt","w")
@@ -461,7 +464,7 @@ def writeVVIR(LRL,URL,MSR,VentAmp,VentPW,VRP,VentSense,RateSmooth,ActivityThresh
                         lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
                         lines.insert(count+10, "\n"+"RespFact"+"\t"+RespFact)
-                        lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime)
+                        lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
                         
 
                         file = open("parameters.txt","w")
@@ -484,7 +487,7 @@ def writeVVIR(LRL,URL,MSR,VentAmp,VentPW,VRP,VentSense,RateSmooth,ActivityThresh
                         lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
                         lines.insert(count+10, "\n"+"RespFact"+"\t"+RespFact)
-                        lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime)
+                        lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
                         
 
                         file = open("parameters.txt","w")
@@ -526,7 +529,7 @@ def writeDOOR(LRL,URL,MSR,FAVD,AtrAmp,AtrPW,VentAmp,VentPW,ActivityThresh,ReactT
                         lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
                         lines.insert(count+10, "\n"+"RespFact"+"\t"+RespFact)
-                        lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime)
+                        lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
                         
 
                         file = open("parameters.txt","w")
@@ -549,7 +552,7 @@ def writeDOOR(LRL,URL,MSR,FAVD,AtrAmp,AtrPW,VentAmp,VentPW,ActivityThresh,ReactT
                         lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
                         lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
                         lines.insert(count+10, "\n"+"RespFact"+"\t"+RespFact)
-                        lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime)
+                        lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
                         
 
                         file = open("parameters.txt","w")
