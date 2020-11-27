@@ -2,7 +2,38 @@ from tkinter import *
 import settings #user global
 import serialcom #allows use of the send functions
 
-
+def readAOOtest(switch):  #if switch is 0 -> AOO if switch is 1 -> VOO
+    if (switch==0):
+        mode = "AOO"
+    else:
+        mode = "VOO"
+    file = open("parameters.txt","r")
+    lines = file.readlines()
+    file.close()
+    count = 0
+    for i in lines:
+        i = i.strip() #removes problematic whitespace  
+        count = count+1 # count up the number of lines till we reach the user
+        if (i==settings.user):  #user is a global variable, this checks to see if the user exists in the parameters file.
+            for j in lines:  
+                j = j.strip() #remove whitespace 
+                count = count + 1  # count the number of lines until AOO is reached + lines to the current user (from previous loop)
+                if (j == mode):
+                    print("user global works,"+mode+" too")
+                    yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
+                    if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
+                        temp = lines[count:count+4] 
+                        send = []
+                        for k in temp:
+                            temp2 = k.strip("\n")
+                            temp3 = temp2.split("\t")
+                            send.append(int(temp3[1]))
+                        serialcom.sendAOOtest(send,switch)
+                        break
+                        
+                    else:
+                        print("there is nothing available for transmission, please save parameters before sending")  ### SHOW TO USER SOMEHOW
+                        break
 
 def readAOOVOO(switch):  #if switch is 0 -> AOO if switch is 1 -> VOO
     if (switch==0):

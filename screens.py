@@ -65,7 +65,7 @@ class Screens:
 		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAOO(self.LRLInput.get(),self.URLInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get())).pack()  # Saves the parameters to the master file
 		# Other menu buttons
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readAOOVOO(0)).pack(side=LEFT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readAOOtest(0)).pack(side=LEFT)
 		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT) #OFF button
 		self.addTxRxDisplay() # add the txrx setup
 

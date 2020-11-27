@@ -4,6 +4,30 @@ import time
 import settings
 
 #note DO NOT name the file serial.py, it will break the import feature
+def sendAOOtest(params,switch): #params is a list with the parameters that need to be packed  Also if switch is 0 AOO if 1 VOO
+    if (switch==0):
+        mode = "AOO" #might be more benificial to use the 0 or 1 that comes with the switch variable rather than defining a string
+    else:
+        mode = "VOO"
+
+
+    settings.ser.open()
+    print("Serial Port Info:", settings.ser) 
+
+
+    print(params)
+    print(type(params[0]))
+    print("10000")
+    # LRL,URL, Atr/VentAmp, Atr/VentPW. 
+    package = struct.pack('<HHHHd',22,34,params[0],params[3],params[2])  # < means Little Endian - uint16,uint16,uint16,uint16,float
+                                                        #https://docs.python.org/3/library/struct.html  (Scroll to charachters for reference)
+    print('binary', package)
+    settings.ser.write(package)  #Write the bytes to the global serial port variable
+
+    settings.ser.read(16) #reads argument is the size of the package we are sending/recieving
+    time.sleep(2)
+    settings.ser.close()
+
 
 
 def sendAOOVOO(params,switch): #params is a list with the parameters that need to be packed  Also if switch is 0 AOO if 1 VOO
