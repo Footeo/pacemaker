@@ -10,9 +10,9 @@ VVIR
 DOOR
 a
 AOO
-LRL	50
-URL	60
-AtrAmp	5
+LRL	80
+URL	90
+AtrAmp	4
 AtrPW	10
 AAI
 VOO

@@ -2,6 +2,7 @@ import serial
 import struct
 import time
 import settings
+import ctypes
 
 #note DO NOT name the file serial.py, it will break the import feature
 def sendAOOtest(params,switch): #params is a list with the parameters that need to be packed  Also if switch is 0 AOO if 1 VOO
@@ -14,19 +15,30 @@ def sendAOOtest(params,switch): #params is a list with the parameters that need 
     settings.ser.open()
     print("Serial Port Info:", settings.ser) 
 
+    buff = ctypes.create_string_buffer(14)  
 
-    print(params)
-    print(type(params[0]))
-    print("10000")
+    # print(params)
+    # print(type(params[0]))
+    # print("10000")
     # LRL,URL, Atr/VentAmp, Atr/VentPW. 
-    package = struct.pack('<HHHHd',22,34,params[0],params[3],params[2])  # < means Little Endian - uint16,uint16,uint16,uint16,float
+    struct.pack_into('<BBHd',buff,0,22,34,params[0],params[3],params[2])  # < means Little Endian - uint16,uint16,uint16,uint16,float
                                                         #https://docs.python.org/3/library/struct.html  (Scroll to charachters for reference)
-    print('binary', package)
-    settings.ser.write(package)  #Write the bytes to the global serial port variable
+    vals1 = settings.ser.write(buff)  #Write the bytes to the global serial port variable
+    print("size of the package we are sending: ", vals1)
+    print("calcsize",struct.calcsize("BBHHd"))
+    print("size of B",struct.calcsize("B"))
+    vals2 = settings.ser.read(14) #reads argument is the size of the package we are sending/recieving
+    print("reading... ", vals2)
+    time.sleep(2) #2 sec delay
 
-    settings.ser.read(16) #reads argument is the size of the package we are sending/recieving
-    time.sleep(2)
-    settings.ser.close()
+    
+    print('unpack buff (in decimal): ', struct.unpack('<BBHHd',buff))
+
+    print('buffer array', buff)
+
+    print("Serial Port Info:", settings.ser) 
+
+    # settings.ser.close()
 
 
 

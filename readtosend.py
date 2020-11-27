@@ -1,6 +1,7 @@
 from tkinter import *
 import settings #user global
 import serialcom #allows use of the send functions
+import test3
 
 def readAOOtest(switch):  #if switch is 0 -> AOO if switch is 1 -> VOO
     if (switch==0):
@@ -27,7 +28,7 @@ def readAOOtest(switch):  #if switch is 0 -> AOO if switch is 1 -> VOO
                         for k in temp:
                             temp2 = k.strip("\n")
                             temp3 = temp2.split("\t")
-                            send.append(int(temp3[1]))
+                            send.append(int(temp3[1]))   #If user sends floats into this it breaks :(   - Used to be int(). Maybe we should explicity typecast in the serialcom file
                         serialcom.sendAOOtest(send,switch)
                         break
                         

@@ -1,97 +1,45 @@
-########################################################
-########## kmj demo for multi window and inputs
-########## python code using default tkinter libraries
-########## TEST ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!
-###################################################
-from tkinter import * 
-from tkinter.ttk import *
-  
-# creates a Tk() object 
-master = Tk() 
-master.title("Kevin's awesome sample!")
+import serial
+import struct
+import time
+import ctypes
 
-# sets the geometry of main root window 
-master.geometry("500x500") 
-  
+ser = serial.Serial()
+ser.port = 'COM4'
+ser.baudrate = 115200  
+ser.timeout = .5
+ser.dtr = 0
 
-# function to open a new window  
-# on a button click 
-def registerWindow(): 
-    # Toplevel object which will  
-    # be treated as a new window 
-    registerWindow = Toplevel(master) 
-    # sets the title of the Toplevel widget 
-    registerWindow.title("Register New User") 
-    # sets the geometry of toplevel 
-    registerWindow.geometry("500x500") 
-    # A Label widget to show in toplevel 
-    Label(registerWindow, text ="\nThis is the registration window\n\nso do registration stuff here... new username and pass, save it etc.").grid() 
+ser.open()
+time.sleep(1)
+print("Serial Port Info:", ser) 
 
-def viewAoo():
-    ### this would be a new window for one of the four types of heart thingys.....
-    # Toplevel object which will  
-    # be treated as a new window 
-    aooWindow = Toplevel(master) 
-    # sets the title of the Toplevel widget 
-    aooWindow.title("AOO Screen") 
-    # sets the geometry of toplevel 
-    aooWindow.geometry("500x500") 
-    # A Label widget to show in toplevel 
-    Label(aooWindow, text ="\nThis is the aoo window where you do all the AOO stuff").pack()
-    Label(aooWindow, text="\nso put stuff here to do!").pack()
+buff = ctypes.create_string_buffer(14)  
 
-def mainWindow():
-    ### this is the main window that gives you all the options you need
-    ### for the project
-    mainWindow = Toplevel(master) 
-    # sets the title of the Toplevel widget 
-    mainWindow.title("Pacemaker by Awesome Dude Kevin") 
-    # sets the geometry of toplevel 
-    mainWindow.geometry("500x500") 
-    # A Label widget to show in toplevel 
-    Label(mainWindow, text ="\nThis is the main options window\n\nChoose an option from the menu above.").grid()
-    # adding menu bar in main window 
-    menu = Menu(mainWindow)
-    item = Menu(menu)
-    item.add_command(label="View AOO screen", command=viewAoo)
-    menu.add_cascade(label="Choose Function Screen", menu=item)
-    mainWindow.config(menu=menu) 
+struct.pack_into('<BBHHd',buff,0,22,85,60,10,4)# < means Little Endian - uint8,uint8,uint16,uint16,float
+                                                # parameter 3. can be either 34 -> echo, or 85 -> set. Which is 0x22 and 0x55 in hex respectively.
+print(buff)
+vals1 = ser.write(buff)  #Write the bytes to the global serial port variable
+print("size of the package we are sending: ", vals1)
+print("calcsize",struct.calcsize("<BBHHd"))
 
-def clearLogin():
-    inputPass.delete(0,END)
+time.sleep(1) #1 sec delay
+
+count=0
+
+while True:  ## Should turn this infinite loop into a function call that will display the Egram
+    struct.pack_into('<BB',buff,0,22,34)
+    ser.write(buff)
+    vals2 = ser.read(14) #read's argument is the size of the package we are sending/recieving
+    print("reading... ", vals2)  #When you are sending bytes in '85' mode, this will not return anything. When you are sending bytes in '34' mode it will echo your parameters once unless you loop it somehow.
     
-def login():
-    #### obviously you need to check with real usernames that
-    ## you store on disk - for now user k and pass j lets you in!!!!
-    if (inputName.get() != "k") or (inputPass.get()!="j"):
-        message.configure(text="you entered INVALID login info!")
-    else:
-        message.configure(text="");
-        clearLogin() # dont leave pass entered, but we leave the username
-        mainWindow() # launch the main interface window which has all your options
-        
-     
-labelName = Label(master, text ="Enter Username: ")
-labelName.pack()
-inputName = Entry(master)
-inputName.pack()
-labelPass = Label (master, text="Exter Password: ")
-labelPass.pack()
-inputPass = Entry(master, show="*")
-inputPass.pack()
-message = Label(master, text="")
-message.pack()
-loginBtn = Button(master, text ="Login", command = login) 
-loginBtn.pack()
-registerBtn = Button(master, text ="Register", command = registerWindow) 
-registerBtn.pack()
-fubar = Label(master, text="for testing use name 'k' and the pass 'j' - anything else will give error")
-fubar.pack()
 
 
-  
-  
-  
-  
-# mainloop, runs infinitely 
-mainloop() 
+    print('unpack buff (in decimal): ', struct.unpack('<BBHHd',buff))
+    count += 1
+    if count==5:
+        break
+
+
+ser.close()
+
+print("Serial Port Info:", ser) 
