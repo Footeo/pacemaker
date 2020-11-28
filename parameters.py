@@ -54,7 +54,7 @@ def writeAOO(LRL,URL,AtrAmp,AtrPW):
                         file.close()
                         break
 
-def writeAAI(LRL,URL,AtrAmp,AtrPW,ARP,AtrSense): ## Same variables a write AAI just different naming convention
+def writeAAI(LRL,URL,AtrAmp,AtrPW,ARP,PVARP,AtrSense): ## Same variables a write AAI just different naming convention
     file = open("parameters.txt","r")
     lines = file.readlines()
     file.close()
@@ -77,7 +77,8 @@ def writeAAI(LRL,URL,AtrAmp,AtrPW,ARP,AtrSense): ## Same variables a write AAI j
                         lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
                         lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW)
                         lines.insert(count+4, "\n"+"ARP"+"\t"+ARP)
-                        lines.insert(count+5, "\n"+"AtrSense"+"\t"+AtrSense+"\n")
+                        lines.insert(count+5, "\n"+"PVARP"+"\t"+PVARP)  #millisecondss
+                        lines.insert(count+6, "\n"+"AtrSense"+"\t"+AtrSense+"\n")
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -93,7 +94,8 @@ def writeAAI(LRL,URL,AtrAmp,AtrPW,ARP,AtrSense): ## Same variables a write AAI j
                         lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
                         lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW)
                         lines.insert(count+4, "\n"+"ARP"+"\t"+ARP)
-                        lines.insert(count+5, "\n"+"AtrSense"+"\t"+AtrSense+"\n")
+                        lines.insert(count+5, "\n"+"PVARP"+"\t"+PVARP)  #millisecondss
+                        lines.insert(count+6, "\n"+"AtrSense"+"\t"+AtrSense+"\n")
 
                         file = open("parameters.txt","w")
                         lines = "".join(lines) # join the new lines variable
@@ -313,7 +315,7 @@ def writeAOOR(LRL,URL,MSR,AtrAmp,AtrPW,ActivityThresh,ReactTime,RespFact,Recover
                         break
 
 
-def writeAAIR(LRL,URL,MSR,AtrAmp,AtrPW,ARP,AtrSense,RateSmooth,ActivityThresh,ReactTime,RespFact,RecoveryTime):
+def writeAAIR(LRL,URL,MSR,AtrAmp,AtrPW,ARP,PVARP,AtrSense,RateSmooth,ActivityThresh,ReactTime,RespFact,RecoveryTime):
     file = open("parameters.txt","r")
     lines = file.readlines()
     file.close()
@@ -338,12 +340,13 @@ def writeAAIR(LRL,URL,MSR,AtrAmp,AtrPW,ARP,AtrSense,RateSmooth,ActivityThresh,Re
                         lines.insert(count+3, "\n"+"AtrAmp"+"\t"+AtrAmp)
                         lines.insert(count+4, "\n"+"AtrPW"+"\t"+AtrPW)
                         lines.insert(count+5, "\n"+"ARP"+"\t"+ARP)
-                        lines.insert(count+6, "\n"+"AtrSense"+"\t"+AtrSense)
-                        lines.insert(count+7, "\n"+"RateSmooth"+"\t"+RateSmooth)
-                        lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
-                        lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
-                        lines.insert(count+10, "\n"+"RespFact"+"\t"+RespFact)
-                        lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
+                        lines.insert(count+6, "\n"+"PVARP"+"\t"+PVARP)
+                        lines.insert(count+7, "\n"+"AtrSense"+"\t"+AtrSense)
+                        lines.insert(count+8, "\n"+"RateSmooth"+"\t"+RateSmooth)
+                        lines.insert(count+9, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
+                        lines.insert(count+10, "\n"+"ReactTime"+"\t"+ReactTime)
+                        lines.insert(count+11, "\n"+"RespFact"+"\t"+RespFact)
+                        lines.insert(count+12, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
                         
 
                         file = open("parameters.txt","w")

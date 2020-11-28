@@ -15,7 +15,7 @@ print("Serial Port Info:", ser)
 
 buff = ctypes.create_string_buffer(14)  
 
-struct.pack_into('<BBHHd',buff,0,22,85,60,10,4)# < means Little Endian - uint8,uint8,uint16,uint16,float
+struct.pack_into('<BBHHd',buff,0,22,85,120,10,4)# < means Little Endian - uint8,uint8,uint16,uint16,double
                                                 # parameter 3. can be either 34 -> echo, or 85 -> set. Which is 0x22 and 0x55 in hex respectively.
 print(buff)
 vals1 = ser.write(buff)  #Write the bytes to the global serial port variable
@@ -38,7 +38,6 @@ while True:  ## Should turn this infinite loop into a function call that will di
     count += 1
     if count==5:
         break
-
 
 ser.close()
 

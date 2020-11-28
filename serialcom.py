@@ -5,40 +5,63 @@ import settings
 import ctypes
 
 #note DO NOT name the file serial.py, it will break the import feature
-def sendAOOtest(params,switch): #params is a list with the parameters that need to be packed  Also if switch is 0 AOO if 1 VOO
-    if (switch==0):
-        mode = "AOO" #might be more benificial to use the 0 or 1 that comes with the switch variable rather than defining a string
-    else:
-        mode = "VOO"
+def sendparameters(params,switch): #params is a list with the parameters that need to be packed  Also if switch is 0 AOO if 1 VOO
+##set up this dictionary to have whatever values are needed for transmission i.e. bytes,  etc.
+    mode = {
+        1: ['AOO',4],
+        2: ['VOO',4],
+        3: ['AAI',7],
+        4: ['VVI',6],
+        5: ['DOO',7],
+        6: ['AOOR',9],
+        7: ['VOOR',9],
+        8: ['AAIR',13],
+        9: ['VVIR',12],
+        10: ['DOOR',12]
+    }
+    mode_sel = mode.get(switch)
+    cur_mode = mode_sel[0] #use current mode later when transmitting
 
+    print("Typecasted parameters",params)
 
     settings.ser.open()
+    time.sleep(1)
     print("Serial Port Info:", settings.ser) 
 
-    buff = ctypes.create_string_buffer(14)  
+    buff = ctypes.create_string_buffer(59)  
 
-    # print(params)
-    # print(type(params[0]))
-    # print("10000")
-    # LRL,URL, Atr/VentAmp, Atr/VentPW. 
-    struct.pack_into('<BBHd',buff,0,22,34,params[0],params[3],params[2])  # < means Little Endian - uint16,uint16,uint16,uint16,float
-                                                        #https://docs.python.org/3/library/struct.html  (Scroll to charachters for reference)
+    ## AOO VOO
+
+    struct.pack_into('<BBBHHHHddHHHHHHHHHHHHHHHH',buff,0,22,85,params[0][1],params[1][1],params[2][1],params[3][1],params[4][1],params[5][1],params[6][1],params[7][1],params[8][1],params[9][1],params[10][1],params[11][1],params[12][1],params[13][1],params[14][1],params[15][1],params[16][1],params[17][1],params[18][1],params[19][1],params[20][1],params[21][1],params[22][1])# < means Little Endian - uint8,uint8,uint16,uint16,double
+                                                    # parameter 3. can be either 34 -> echo, or 85 -> set. Which is 0x22 and 0x55 in hex respectively.
+    print(buff)
     vals1 = settings.ser.write(buff)  #Write the bytes to the global serial port variable
     print("size of the package we are sending: ", vals1)
-    print("calcsize",struct.calcsize("BBHHd"))
-    print("size of B",struct.calcsize("B"))
-    vals2 = settings.ser.read(14) #reads argument is the size of the package we are sending/recieving
-    print("reading... ", vals2)
-    time.sleep(2) #2 sec delay
+    print("calcsize",struct.calcsize("<BBBHHHHddHHHHHHHHHHHHHHHH"))
 
-    
-    print('unpack buff (in decimal): ', struct.unpack('<BBHHd',buff))
+    time.sleep(1) #1 sec delay
 
-    print('buffer array', buff)
+    count=0
+
+    while True:  ## Should turn this infinite loop into a function call that will display the Egram
+        struct.pack_into('<BB',buff,0,22,34)
+        settings.ser.write(buff)
+
+        ## THIS WILL CHANGE BASED ON MODE
+        vals2 = settings.ser.read(59) #read's argument is the size of the package we are sending/recieving
+        print("reading... ", vals2)  #When you are sending bytes in '85' mode, this will not return anything. When you are sending bytes in '34' mode it will echo your parameters once unless you loop it somehow.
+        
+
+
+        print('unpack buff (in decimal): ', struct.unpack('<BBBHHHHddHHHHHHHHHHHHHHHH',buff))
+        count += 1
+        if count==5:
+            break
+
+    settings.ser.close()
 
     print("Serial Port Info:", settings.ser) 
 
-    # settings.ser.close()
 
 
 

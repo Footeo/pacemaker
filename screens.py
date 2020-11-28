@@ -65,7 +65,7 @@ class Screens:
 		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAOO(self.LRLInput.get(),self.URLInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get())).pack()  # Saves the parameters to the master file
 		# Other menu buttons
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readAOOtest(0)).pack(side=LEFT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(1)).pack(side=LEFT)
 		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT) #OFF button
 		self.addTxRxDisplay() # add the txrx setup
 
@@ -89,14 +89,17 @@ class Screens:
 		self.ARP = Label(self.contentFrame, text="Atrial Refractory Period (ms)").pack()
 		self.ARPInput = Entry(self.contentFrame)
 		self.ARPInput.pack()
+		self.PVARP = Label(self.contentFrame, text="Post Ventricular Atrial Refractory Period (ms)").pack()
+		self.PVARPInput = Entry(self.contentFrame)
+		self.PVARPInput.pack()
 		self.AtrSensitivitiyLabel = Label(self.contentFrame, text="Atrial Sensitivity (V)").pack()  
 		self.AtrSensitivityInput = Entry(self.contentFrame)
 		self.AtrSensitivityInput.pack()
 		
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAAI(self.LRLInput.get(),self.URLInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.ARPInput.get(),self.AtrSensitivityInput.get())).pack()  # Saves the parameters to the master file
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAAI(self.LRLInput.get(),self.URLInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.ARPInput.get(),self.PVARPInput.get(),self.AtrSensitivityInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readAAIVVI(0)).pack(side=LEFT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(2)).pack(side=LEFT)
 		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
 
@@ -123,7 +126,7 @@ class Screens:
 		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVOO(self.LRLInput.get(),self.URLInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readAOOVOO(1)).pack(side=LEFT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(3)).pack(side=LEFT)
 		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
 
@@ -155,7 +158,7 @@ class Screens:
 		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVVI(self.LRLInput.get(),self.URLInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.VRPInput.get(),self.VentSensitivityInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readAAIVVI(1)).pack(side=LEFT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(4)).pack(side=LEFT)
 		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
 
@@ -190,7 +193,7 @@ class Screens:
 		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeDOO(self.LRLInput.get(),self.URLInput.get(),self.FixedAVDelayInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readDOO).pack(side=LEFT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(5)).pack(side=LEFT)
 		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
 
@@ -234,7 +237,7 @@ class Screens:
 		
 		# Other menu buttons
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readAOORVOOR(0)).pack(side=LEFT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(6)).pack(side=LEFT)
 		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
 
@@ -261,6 +264,9 @@ class Screens:
 		self.ARP = Label(self.contentFrame, text="Atrial Refractory Period (ms)").pack()
 		self.ARPInput = Entry(self.contentFrame)
 		self.ARPInput.pack()
+		self.PVARP = Label(self.contentFrame, text="Post Ventricular Atrial Refractory Period (ms)").pack()
+		self.PVARPInput = Entry(self.contentFrame)
+		self.PVARPInput.pack()
 		self.AtrSensitivitiyLabel = Label(self.contentFrame, text="Atrial Sensitivity (V)").pack() 
 		self.AtrSensitivityInput = Entry(self.contentFrame)
 		self.AtrSensitivityInput.pack()
@@ -288,10 +294,10 @@ class Screens:
 		self.RecoveryTimeInput.pack()
 
 		# Going to have to modify this button functions
-		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAAIR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.ARPInput.get(),self.AtrSensitivityInput.get(),self.RS.get(),self.ATI.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
+		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeAAIR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.ARPInput.get(),self.PVARPInput.get(),self.AtrSensitivityInput.get(),self.RS.get(),self.ATI.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readAAIRVVIR(0)).pack(side=LEFT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(7)).pack(side=LEFT)
 		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
 
@@ -335,7 +341,7 @@ class Screens:
 		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.ATI.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readAOORVOOR(1)).pack(side=LEFT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(8)).pack(side=LEFT)
 		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
 
@@ -392,7 +398,7 @@ class Screens:
 		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeVVIR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.VRPInput.get(),self.VentSensitivityInput.get(),self.RS.get(),self.ATI.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readAAIRVVIR(1)).pack(side=LEFT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(9)).pack(side=LEFT)
 		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
 
@@ -444,7 +450,7 @@ class Screens:
 		self.write = Button(self.optionsFrame,text="Save Parameters",command=lambda:parameters.writeDOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.FixedAVDelayInput.get(),self.AtrAmplitudeInput.get(),self.AtrPulseWidthInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.ATI.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())).pack()  # Saves the parameters to the master file
 
 		self.back = Button(self.optionsFrame, text ="Back To Main Screen", command = lambda: self.mainScreen()).pack()
-		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readDOOR()).pack(side=LEFT)
+		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(10)).pack(side=LEFT)
 		self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		self.addTxRxDisplay() # add the txrx setup
 
