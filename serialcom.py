@@ -20,7 +20,7 @@ def sendparameters(params,switch): #params is a list with the parameters that ne
         10: ['DOOR',12]
     }
     mode_sel = mode.get(switch)
-    cur_mode = mode_sel[0] #use current mode later when transmitting
+    # cur_mode = mode_sel[0] #use current mode later when transmitting
 
     print("Typecasted parameters",params)
 
@@ -28,31 +28,36 @@ def sendparameters(params,switch): #params is a list with the parameters that ne
     time.sleep(1)
     print("Serial Port Info:", settings.ser) 
 
-    buff = ctypes.create_string_buffer(53)  
+    buff = ctypes.create_string_buffer(69)  
 
     ## AOO VOO
 
-    struct.pack_into('<BBBHHHHddHHHHHHHHHHHHHHHH',buff,0,22,85,params[0][1],params[1][1],params[2][1],params[3][1],params[4][1],params[5][1],params[6][1],params[7][1],params[8][1],params[9][1],params[10][1],params[11][1],params[12][1],params[13][1],params[14][1],params[15][1],params[16][1],params[17][1],params[18][1],params[19][1])# < means Little Endian - uint8,uint8,uint16,uint16,double
+    #send = [['switch',switch],['LRL',0],['URL',0],['MSR',0],['FAVD',0],['AtrAmp',0],['VentAmp',0],['AtrPW',0],['VentPW',0],['AtrSense',0],['VentSense',0],['VRP',0],['ARP',0],['PVARP',0],['RateSmooth',0],['ActivityThresh',0],['ReactTime',0],["RespFact",0],['RecoveryTime',0]] 
+
+    struct.pack_into('<BBBHHHHddddHHHHHHHdHHH',buff,0,22,85,params[0][1],params[1][1],params[2][1],params[3][1],params[4][1],params[5][1],params[6][1],params[7][1],params[8][1],params[9][1],params[10][1],params[11][1],params[12][1],params[13][1],params[14][1],params[15][1],params[16][1],params[17][1],params[18][1],params[19][1])# < means Little Endian - uint8,uint8,uint16,uint16,double
                                                     # parameter 3. can be either 34 -> echo, or 85 -> set. Which is 0x22 and 0x55 in hex respectively.
     print(buff)
     vals1 = settings.ser.write(buff)  #Write the bytes to the global serial port variable
     print("size of the package we are sending: ", vals1)
-    print("calcsize",struct.calcsize("<BBBHHHHddHHHHHHHHHHHHHHHH"))
+    print("calcsize",struct.calcsize("<BBBHHHHddddHHHHHHHdHHH"))
 
     time.sleep(1) #1 sec delay
 
     count=0
 
-    while True:  ## Should turn this infinite loop into a function call that will display the Egram
-        struct.pack_into('<BB',buff,0,22,34)
-        settings.ser.write(buff)
+    buff = ctypes.create_string_buffer(85)  #new buffer  
 
-        ## THIS WILL CHANGE BASED ON MODE
-        vals2 = settings.ser.read(59) #read's argument is the size of the package we are sending/recieving
-        print("reading... ", vals2)  #When you are sending bytes in '85' mode, this will not return anything. When you are sending bytes in '34' mode it will echo your parameters once unless you loop it somehow.
+    while True:  ## Should turn this infinite loop into a function call that will display the Egram
+
+        #When reading here we have to read the entire serial packet and read off the last 2 doubles which are atr and vent pacing signals.
+
+        #Vent signal is first 
+
+        vals2 = settings.ser.read(85) #read's argument is the size of the package we are sending/recieving
+        print("reading... ", vals2)  
         
 
-
+        #How are we going to unpack the two pacing pins? I think we have to unpack everything and then only use the last 2 values for the egram?
         print('unpack buff (in decimal): ', struct.unpack('<BBBHHHHddHHHHHHHHHHHHHHHH',buff))
         count += 1
         if count==5:
