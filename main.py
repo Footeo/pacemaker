@@ -7,8 +7,6 @@ from struct import *
 
 settings.init() #initialize global variables
 
-##### YO YOI YOY OYO YYOYOY OYOY OY HOW IT FOES MENANEN
-
 root = Tk() 
 root.title("Device Control Monitor")
 # sets the geometry of main root window 
