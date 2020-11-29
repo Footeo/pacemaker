@@ -7,8 +7,8 @@ def init():
 
     global ser
     ser = serial.Serial()
-    ser.port = 'COM4'
-    ser.baudrate = 115200  #idk about this right now
+    ser.port = 'COM4' #Change based on computer
+    ser.baudrate = 115200  
     ser.timeout = 0.5
     ser.dtr = 0
     
