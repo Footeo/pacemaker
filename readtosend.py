@@ -1,7 +1,6 @@
 from tkinter import *
 import settings #user global
 import serialcom #allows use of the send functions
-import test3
 
 def readparameters(switch):  # 1-10
     mode = {
@@ -46,7 +45,7 @@ def readparameters(switch):  # 1-10
                         for k in temp:
                             temp2 = k.strip("\n")
                             temp3 = temp2.split("\t")
-                            if ((temp3[0] == 'AtrAmp') or (temp3[0] == 'VentAmp')):  #Typecasting 
+                            if ((temp3[0] == 'AtrAmp') or (temp3[0] == 'VentAmp') or (temp3[0] == 'AtrPW') or (temp3[0] == 'VentPW') or (temp3[0] == 'ActivityThresh')):  #Typecasting 
                                 print("float value",temp3[1])
                                 temp3[1] = float(temp3[1])
                             else:

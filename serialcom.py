@@ -25,7 +25,7 @@ def sendparameters(params,switch): #params is a list with the parameters that ne
     print("Typecasted parameters",params)
 
     settings.ser.open()
-    time.sleep(1)
+
     print("Serial Port Open?", settings.ser.is_open) 
 
     buff = ctypes.create_string_buffer(100)  
@@ -39,13 +39,12 @@ def sendparameters(params,switch): #params is a list with the parameters that ne
     print(buff)
     vals1 = settings.ser.write(buff)  #Write the bytes to the global serial port variable
     print("size of the package we are sending: ", vals1)
-    print("calcsize",struct.calcsize("<BBBHHHHddddHHHHHHdHHH"))
 
     time.sleep(1) #1 sec delay
 
     count=0
 
-    # buff = ctypes.create_string_buffer(87)  #new buffer  
+    buff = ctypes.create_string_buffer(100)  #new buffer  
 
     while True:  ## Should turn this infinite loop into a function call that will display the Egram
         
@@ -53,13 +52,17 @@ def sendparameters(params,switch): #params is a list with the parameters that ne
         settings.ser.write(buff)
         #When reading here we have to read the entire serial packet and read off the last 2 doubles which are atr and vent pacing signals.
 
-        vals2 = settings.ser.read(87) #read's argument is the size of the package we are sending/recieving
-        print("reading... ", vals2)  
+        buff = settings.ser.read(85) #read's argument is the size of the package we are sending/recieving
+        print("reading... ", buff)  
 
         #How are we going to unpack the two pacing pins? I think we have to unpack everything and then only use the last 2 values for the egram?
-
-        print('unpack buff (in decimal): ', struct.unpack('<BBBHHHHddddHHHHHHHdHHHdd',buff))
         
+        vals2 = struct.unpack_from('<BHHHHddddHHHHHHdHHHdd', buff, offset=0) #I think there is some threading error here when looping, but I haven't the time left to look into it
+
+        #if it gives and error try unplugging the FDRM board and plugging it back in
+        #if it still doesn't work then idk. it broken
+
+        print(vals2)
         count += 1
         if count==3:
             break
@@ -69,6 +72,19 @@ def sendparameters(params,switch): #params is a list with the parameters that ne
     print("Serial Port Open?", settings.ser.is_open) 
 
 
+##THIS WORKS!! (sometimes)
+# struct.pack_into('<BB',buff,0,22,34)
+# settings.ser.write(buff)
 
 
-# #Egram has to be done 
+# buff = settings.ser.read(83)  # 67 + 16 for the atr/vent
+
+# print(buff)
+# print(type(buff))
+
+# #NOTE If this throws errors, unplug the FRDM board, it's a finniky mofo
+
+# vals2 = struct.unpack_from('<BHHHHddddHHHHHHdHHHdd', buff, offset=0)   
+
+# print(vals2) 
+
