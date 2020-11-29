@@ -10,14 +10,14 @@ settings.init() #initialize global variables
 root = Tk() 
 root.title("Device Control Monitor")
 # sets the geometry of main root window 
-root.geometry("400x620")
+root.geometry("800x620")
 
 
 # create 2 frames
 contentFrame = Frame(root)
-contentFrame.pack()
+contentFrame.grid(columnspan=1)
 optionsFrame = Frame(root)
-optionsFrame.pack(side=BOTTOM)
+optionsFrame.grid(sticky="S")  #S = south
 
 # add a menu to window
 menu = Menu(root)

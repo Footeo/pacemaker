@@ -12,21 +12,21 @@ class Login:
 
 	def loginDisplay(self): #login display for entering username and password and calling the login function 
 		self.labelName = Label(self.contentFrame, text ="Enter Username: ")
-		self.labelName.pack()
+		self.labelName.grid(row=0,column=0,padx=350)
 		self.inputName = Entry(self.contentFrame)
-		self.inputName.pack()
+		self.inputName.grid(row=1,column=0)
 		self.labelPass = Label (self.contentFrame, text="Exter Password: ")
-		self.labelPass.pack()
+		self.labelPass.grid(row=2,column=0)
 		self.inputPass = Entry(self.contentFrame, show="*")
-		self.inputPass.pack()
+		self.inputPass.grid(row=3,column=0)
 		self.message = Label(self.contentFrame, text="")
-		self.message.pack()
+		self.message.grid(row=4,column=0)
 		self.loginBtn = Button(self.contentFrame, text ="Login", command = lambda: self.loginGo(self.inputName.get(),self.inputPass.get()))
-		self.loginBtn.pack()
+		self.loginBtn.grid(row=5,column=0)
 		self.registerBtn = Button(self.contentFrame, text ="Register new user", command = self.registerScreen) 
-		self.registerBtn.pack()
+		self.registerBtn.grid(row=6,column=0)
 		self.fubar = Label(self.contentFrame, text="")
-		self.fubar.pack()
+		self.fubar.grid(row=7,column=0)
 
 	def loginGo(self,uName,Pass):
 		# check with usernames/passwords stored on file
@@ -48,23 +48,23 @@ class Login:
 	## This is the display for registering a new user
 
 	def registerScreen(self):
-		self.registerText = Label(self.contentFrame, text ="Register a new user").pack()
-		self.newNameLabel = Label(self.contentFrame, text ="Enter New Username: ").pack()
+		self.registerText = Label(self.contentFrame, text ="Register a new user").grid(row=8,column=0)
+		self.newNameLabel = Label(self.contentFrame, text ="Enter New Username: ").grid(row=9,column=0)
 		self.newNameEntry = Entry(self.contentFrame)  			##Have to save this entry into a text file somehow
-		self.newNameEntry.pack()
-		self.newPassLabel = Label(self.contentFrame, text="Enter Password: ").pack()
+		self.newNameEntry.grid(row=10,column=0)
+		self.newPassLabel = Label(self.contentFrame, text="Enter Password: ").grid(row=11,column=0)
 		self.newPassEntry = Entry(self.contentFrame, show="*")  #have to save this password into a text file too 
-		self.newPassEntry.pack()
+		self.newPassEntry.grid(row=12,column=0)
 		self.newPassLabel2 = Label(self.contentFrame, text="Reenter Password: ")
-		self.newPassLabel2.pack()
+		self.newPassLabel2.grid(row=13,column=0)
 		self.newPassEntry2 = Entry(self.contentFrame, show="*")  #have to save this password into a text file too 
-		self.newPassEntry2.pack()
+		self.newPassEntry2.grid(row=14,column=0)
 		self.registerMessage = Label(self.contentFrame, text="")
-		self.registerMessage.pack()
+		self.registerMessage.grid(row=15,column=0)
 		self.registerMessage2 = Label(self.contentFrame, text="")
-		self.registerMessage2.pack()
+		self.registerMessage2.grid(row=16,column=0)
 		self.registerBtn = Button(self.contentFrame, text ="Enter", command = lambda: self.registerUser(self.newNameEntry.get(),self.newPassEntry.get(),self.newPassEntry2.get()))
-		self.registerBtn.pack() #What if i make it call a function registerUser?
+		self.registerBtn.grid(row=17,column=0) #What if i make it call a function registerUser?
 
 	##This is the code that confirms the registration for the user.
 

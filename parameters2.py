@@ -1,0 +1,673 @@
+from tkinter import *
+import settings
+import screens
+
+# This could probably be cleaned up by making a class, the functions all take different inputs so it would be
+# difficult to make them universal members of a class in that case. 
+
+#Have to make sure that the limits of the variable are correct before this is written to the file.
+
+class Write:
+    def __init__(self,LRL,URL,MRS,FAVD,AtrAmp,VentAmp,AtrPW,VentPW,AtrSense,VentSense,VRP,ARP,PVARP,RateSmooth,ActivityThresh,ReactTime,RespFact,RecoveryTime):
+        self.LRL = LRL
+        self.URL = URL
+        self.MRS = MRS
+        self.FAVD = FAVD
+        self.AtrAmp = AtrAmp
+        self.VentAmp = VentAmp
+        self.AtrPW = AtrPW
+        self.VentPW = VentPW
+        self.AtrSense = AtrSense
+        self.VentSense = VentSense
+        self.VRP = VRP
+        self.ARP = ARP
+        self.PVARP = PVARP
+        self.RateSmooth = RateSmooth
+        self.ActivityThresh = ActivityThresh
+        self.ReactTime = ReactTime
+        self.RespFact = RespFact
+        self.RecoveryTime = RecoveryTime
+    
+    
+    def writeall(self,switch):
+        # params = ['LRL','URL','MSR','FAVD','AtrAmp','VentAmp','AtrPW','VentPW','AtrSense','VentSense','VRP','ARP','PVARP','RateSmooth','ActivityThresh','ReactTime','RespFact','RecoveryTime']
+        mode = {            # Members of the dictonary format ['mode',# of params, param1,param2,...,param_n]
+            1: ['AOO',4,'LRL','URL','AtrAmp','AtrPW'],
+            2: ['VOO',4,'LRL','URL','VentAmp','VentPW'],
+            3: ['AAI',7,'LRL','URL','AtrAmp','AtrPW','ARP','PVARP','AtrSense'],
+            4: ['VVI',6,'LRL','URL','VentAmp','VentPW','VRP','VentSense'],
+            5: ['DOO',7,'LRL','URL','FAVD','AtrAmp','AtrPW','VentAmp','VentPW'],
+            6: ['AOOR',9,'LRL','URL','MSR','AtrAmp','AtrPW','ActivityThresh','ReactTime','RespFact','RecoveryTime'],
+            7: ['VOOR',9, 'LRL','URL','MSR','VentAmp','VentPW','ActivityThresh','ReactTime','RespFact','RecoveryTime'],
+            8: ['AAIR',13,'LRL','URL','MSR','AtrAmp','AtrPW','ARP','PVARP','AtrSense','RateSmooth','ActivityThresh','ReactTime','RespFact','RecoveryTime'],
+            9: ['VVIR',12, 'LRL','URL','MSR','VentAmp','VentPW','VRP','VentSense','RateSmooth','ActivityThresh','ReactTime','RespFact','RecoveryTime'],
+            10: ['DOOR',12, 'LRL','URL','MSR','FAVD','AtrAmp','AtrPW','VentAmp','VentPW','ActivityThresh','ReactTime','RespFact','RecoveryTime']
+        }
+
+        screens.AOO(self).get()
+        get_mode = mode.get(switch)
+        cur_mode = get_mode[0]
+
+        #check if parameters are inputted correctly
+        i=2 #start at index i=2
+        for i in range(len(get_mode)-2):
+            if (get_mode[i]=="LRL"):
+                continue
+
+
+
+        file = open("parameters.txt","r")
+        lines = file.readlines()
+        file.close()
+        count = 0
+        for i in lines:
+            i = i.strip() #removes problematic whitespace  
+            count = count+1 # count up the number of lines till we reach the user
+            if (i==settings.user):  #user is a global variable, this checks to see if the user exists in the parameters file.
+                for j in lines:  
+                    j = j.strip() #remove whitespace 
+                    count = count + 1  # count the number of lines until AOO is reached + lines to the current user (from previous loop)
+                    if (j == cur_mode):
+                        print("checking file at"+cur_mode)
+
+
+
+
+
+                        yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
+                        if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
+                            #delete next 4 values
+                            del lines[count:get_mode[1]] #delete items from count to mode_count
+                            
+                            screens.AOO().message.configure(text="Try again")
+
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
+                            lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+                            
+                        else:
+                            # write only
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
+                            lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+
+
+    def writeAOO(self,LRL,URL,AtrAmp,AtrPW):
+        file = open("parameters.txt","r")
+        lines = file.readlines()
+        file.close()
+        count = 0
+        for i in lines:
+            i = i.strip() #removes problematic whitespace  
+            count = count+1 # count up the number of lines till we reach the user
+            if (i==settings.user):  #user is a global variable, this checks to see if the user exists in the parameters file.
+                for j in lines:  
+                    j = j.strip() #remove whitespace 
+                    count = count + 1  # count the number of lines until AOO is reached + lines to the current user (from previous loop)
+                    if (j == "AOO"):
+                        print("user global works, @AOO too")
+                        yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
+                        if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
+                            #delete next 4 values
+                            del lines[count:count+4] #delete items from count to count+4
+                            
+                            screens.AOO().message.configure(text="Try again")
+
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
+                            lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+                            
+                        else:
+                            # write only
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
+                            lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+
+    def writeAAI(LRL,URL,AtrAmp,AtrPW,ARP,PVARP,AtrSense): ## Same variables a write AAI just different naming convention
+        file = open("parameters.txt","r")
+        lines = file.readlines()
+        file.close()
+        count = 0
+        for i in lines:
+            count = count+1 # count up the number of lines till we reach the user
+            i = i.strip() #removes problematic whitespace  ## TEST CASE??
+            if (i==settings.user):  #user is a global variable, oh lordy hope i haven't used it yet.
+                for j in lines:
+                    j = j.strip() #remove whitespace 
+                    count = count + 1  #counts the current line
+                    if (j == "AAI"):
+                        yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
+                        if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
+                            #delete values
+                            del lines[count:count+6] 
+                            
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
+                            lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW)
+                            lines.insert(count+4, "\n"+"ARP"+"\t"+ARP)
+                            lines.insert(count+5, "\n"+"PVARP"+"\t"+PVARP)  #millisecondss
+                            lines.insert(count+6, "\n"+"AtrSense"+"\t"+AtrSense+"\n")
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+                            
+                        else:
+                            # write only
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
+                            lines.insert(count+3, "\n"+"AtrPW"+"\t"+AtrPW)
+                            lines.insert(count+4, "\n"+"ARP"+"\t"+ARP)
+                            lines.insert(count+5, "\n"+"PVARP"+"\t"+PVARP)  #millisecondss
+                            lines.insert(count+6, "\n"+"AtrSense"+"\t"+AtrSense+"\n")
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+
+    def writeVOO(LRL,URL,VentAmp,VentPW):
+        file = open("parameters.txt","r")
+        lines = file.readlines()
+        file.close()
+        count = 0
+        for i in lines:
+            i = i.strip() #removes problematic whitespace  ## TEST CASE??
+            count = count+1 # count up the number of lines till we reach the user
+            if (i==settings.user):  #user is a global variable, this checks to see if the user exists in the parameters file.
+                for j in lines:  
+                    j = j.strip() #remove whitespace 
+                    count = count + 1  # count the number of lines until AOO is reached + lines to the current user (from previous loop)
+                    if (j == "VOO"):
+                        print("user global works, @VOO too")
+                        yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
+                        if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
+                            #delete next 4 values
+                            del lines[count:count+4] 
+                            
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"VentAmp"+"\t"+VentAmp)
+                            lines.insert(count+3, "\n"+"VentPW"+"\t"+VentPW+"\n")
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+                            
+                        else:
+                            # write only
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"VentAmp"+"\t"+VentAmp)
+                            lines.insert(count+3, "\n"+"VentPW"+"\t"+VentPW+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+
+    def writeVVI(LRL,URL,VentAmp,VentPW,VRP,VentSense):  ## This is an edge test case wrt this being at the end of the file, it doesn't work the same. Ghetto solution is to Write LRL during registration, works now
+        file = open("parameters.txt","r")
+        lines = file.readlines()
+        file.close()
+        count = 0
+        for i in lines:
+            i = i.strip() #removes problematic whitespace  ## TEST CASE??
+            count = count+1 # count up the number of lines till we reach the user
+            if (i==settings.user):  #user is a global variable, this checks to see if the user exists in the parameters file.
+                for j in lines:  
+                    j = j.strip() #remove whitespace 
+                    count = count + 1  # count the number of lines until AOO is reached + lines to the current user (from previous loop)
+                    if (j == "VVI"):
+                        print("user global works, @VVI too")
+                        print(count)
+                        yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
+                        print(yesLRL)
+                        if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
+                            #delete values
+                            del lines[count:count+6] 
+                            
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"VentAmp"+"\t"+VentAmp)
+                            lines.insert(count+3, "\n"+"VentPW"+"\t"+VentPW)
+                            lines.insert(count+4, "\n"+"VRP"+"\t"+VRP)
+                            lines.insert(count+5, "\n"+"VentSense"+"\t"+VentSense+"\n")
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+                            
+                        else:
+                            # write only
+                            del lines[count]
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"VentAmp"+"\t"+VentAmp)
+                            lines.insert(count+3, "\n"+"VentPW"+"\t"+VentPW)
+                            lines.insert(count+4, "\n"+"VRP"+"\t"+VRP)
+                            lines.insert(count+5, "\n"+"VentSense"+"\t"+VentSense+"\n")
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+
+    ## NEW!!
+    ## EDIT FUNCTION PARAMETERS AND INTERNALS
+
+    def writeDOO(LRL,URL,FAVD,AtrAmp,AtrPW,VentAmp,VentPW):
+        file = open("parameters.txt","r")
+        lines = file.readlines()
+        file.close()
+        count = 0
+        for i in lines:
+            i = i.strip() #removes problematic whitespace  ## TEST CASE??
+            count = count+1 # count up the number of lines till we reach the user
+            if (i==settings.user):  #user is a global variable, this checks to see if the user exists in the parameters file.
+                for j in lines:  
+                    j = j.strip() #remove whitespace 
+                    count = count + 1  # count the number of lines until AOO is reached + lines to the current user (from previous loop)
+                    if (j == "DOO"):
+                        print("user global works, @DOO too")
+                        yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
+                        if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
+                            #delete next 7 values
+                            del lines[count:count+7] #delete items from count to count+7
+                            
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"FAVD"+"\t"+FAVD)
+                            lines.insert(count+3, "\n"+"AtrAmp"+"\t"+AtrAmp)
+                            lines.insert(count+4, "\n"+"AtrPW"+"\t"+AtrPW)                        
+                            lines.insert(count+5, "\n"+"VentAmp"+"\t"+VentAmp)                        
+                            lines.insert(count+6, "\n"+"VentPW"+"\t"+VentPW+"\n")
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+                            
+                        else:
+                            # write only
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"FAVD"+"\t"+FAVD)
+                            lines.insert(count+3, "\n"+"AtrAmp"+"\t"+AtrAmp)
+                            lines.insert(count+4, "\n"+"AtrPW"+"\t"+AtrPW)                        
+                            lines.insert(count+5, "\n"+"VentAmp"+"\t"+VentAmp)                        
+                            lines.insert(count+6, "\n"+"VentPW"+"\t"+VentPW+"\n")                        
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+
+    # writeAOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())
+    def writeAOOR(LRL,URL,MSR,AtrAmp,AtrPW,ActivityThresh,ReactTime,RespFact,RecoveryTime):
+        file = open("parameters.txt","r")
+        lines = file.readlines()
+        file.close()
+        count = 0
+        for i in lines:
+            i = i.strip() #removes problematic whitespace  ## TEST CASE??
+            count = count+1 # count up the number of lines till we reach the user
+            if (i==settings.user):  #user is a global variable, this checks to see if the user exists in the parameters file.
+                for j in lines:  # This will bug if there is more than one user in the parameters file
+                    j = j.strip() #remove whitespace 
+                    count = count + 1  # count the number of lines until AOO is reached + lines to the current user (from previous loop)
+                    if (j == "AOOR"):
+                        print("user global works, @AOOR too")
+                        yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
+                        if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
+                            #delete next 9 values
+                            del lines[count:count+9] #delete items from count to count+4
+                            
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"MSR"+"\t"+MSR)
+                            lines.insert(count+3, "\n"+"AtrAmp"+"\t"+AtrAmp)
+                            lines.insert(count+4, "\n"+"AtrPW"+"\t"+AtrPW)
+                            lines.insert(count+5, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
+                            lines.insert(count+6, "\n"+"ReactTime"+"\t"+ReactTime)
+                            lines.insert(count+7, "\n"+"RespFact"+"\t"+RespFact)
+                            lines.insert(count+8, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+                            
+                        else:
+                            # write only
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"MSR"+"\t"+MSR)
+                            lines.insert(count+3, "\n"+"AtrAmp"+"\t"+AtrAmp)
+                            lines.insert(count+4, "\n"+"AtrPW"+"\t"+AtrPW)
+                            lines.insert(count+5, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
+                            lines.insert(count+6, "\n"+"ReactTime"+"\t"+ReactTime)
+                            lines.insert(count+7, "\n"+"RespFact"+"\t"+RespFact)
+                            lines.insert(count+8, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+
+
+    def writeAAIR(LRL,URL,MSR,AtrAmp,AtrPW,ARP,PVARP,AtrSense,RateSmooth,ActivityThresh,ReactTime,RespFact,RecoveryTime):
+        file = open("parameters.txt","r")
+        lines = file.readlines()
+        file.close()
+        count = 0
+        for i in lines:
+            i = i.strip() #removes problematic whitespace  ## TEST CASE??
+            count = count+1 # count up the number of lines till we reach the user
+            if (i==settings.user):  #user is a global variable, this checks to see if the user exists in the parameters file.
+                for j in lines:  # This will bug if there is more than one user in the parameters file
+                    j = j.strip() #remove whitespace 
+                    count = count + 1  # count the number of lines until AOO is reached + lines to the current user (from previous loop)
+                    if (j == "AAIR"):
+                        print("user global works, @AAIR too")
+                        yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
+                        if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
+                            #delete next 12 values
+                            del lines[count:count+12] #delete items from count to count+4
+                            
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"MSR"+"\t"+MSR)
+                            lines.insert(count+3, "\n"+"AtrAmp"+"\t"+AtrAmp)
+                            lines.insert(count+4, "\n"+"AtrPW"+"\t"+AtrPW)
+                            lines.insert(count+5, "\n"+"ARP"+"\t"+ARP)
+                            lines.insert(count+6, "\n"+"PVARP"+"\t"+PVARP)
+                            lines.insert(count+7, "\n"+"AtrSense"+"\t"+AtrSense)
+                            lines.insert(count+8, "\n"+"RateSmooth"+"\t"+RateSmooth)
+                            lines.insert(count+9, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
+                            lines.insert(count+10, "\n"+"ReactTime"+"\t"+ReactTime)
+                            lines.insert(count+11, "\n"+"RespFact"+"\t"+RespFact)
+                            lines.insert(count+12, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+                            
+                        else:
+                            # write only
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"MSR"+"\t"+MSR)
+                            lines.insert(count+3, "\n"+"AtrAmp"+"\t"+AtrAmp)
+                            lines.insert(count+4, "\n"+"AtrPW"+"\t"+AtrPW)
+                            lines.insert(count+5, "\n"+"ARP"+"\t"+ARP)
+                            lines.insert(count+6, "\n"+"AtrSense"+"\t"+AtrSense)
+                            lines.insert(count+7, "\n"+"RateSmooth"+"\t"+RateSmooth)
+                            lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
+                            lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
+                            lines.insert(count+10, "\n"+"RespFact"+"\t"+RespFact)
+                            lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+
+    # writeVOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.VentAmplitudeInput.get(),self.VentPulseWidthInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())
+    def writeVOOR(LRL,URL,MSR,VentAmp,VentPW,ActivityThresh,ReactTime,RespFact,RecoveryTime):
+        file = open("parameters.txt","r")
+        lines = file.readlines()
+        file.close()
+        count = 0
+        for i in lines:
+            i = i.strip() #removes problematic whitespace  ## TEST CASE??
+            count = count+1 # count up the number of lines till we reach the user
+            if (i==settings.user):  #user is a global variable, this checks to see if the user exists in the parameters file.
+                for j in lines:  # This will bug if there is more than one user in the parameters file
+                    j = j.strip() #remove whitespace 
+                    count = count + 1  # count the number of lines until AOO is reached + lines to the current user (from previous loop)
+                    if (j == "VOOR"):
+                        print("user global works, @VOOR too")
+                        yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
+                        if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
+                            #delete next 9 values
+                            del lines[count:count+9] #delete items from count to count+4
+                            
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"MSR"+"\t"+MSR)
+                            lines.insert(count+3, "\n"+"VentAmp"+"\t"+VentAmp)
+                            lines.insert(count+4, "\n"+"VentPW"+"\t"+VentPW)
+                            lines.insert(count+5, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
+                            lines.insert(count+6, "\n"+"ReactTime"+"\t"+ReactTime)
+                            lines.insert(count+7, "\n"+"RespFact"+"\t"+RespFact)
+                            lines.insert(count+8, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+                            
+                        else:
+                            # write only
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"MSR"+"\t"+MSR)
+                            lines.insert(count+3, "\n"+"VentAmp"+"\t"+VentAmp)
+                            lines.insert(count+4, "\n"+"VentPW"+"\t"+VentPW)
+                            lines.insert(count+5, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
+                            lines.insert(count+6, "\n"+"ReactTime"+"\t"+ReactTime)
+                            lines.insert(count+7, "\n"+"RespFact"+"\t"+RespFact)
+                            lines.insert(count+8, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+
+    def writeVVIR(LRL,URL,MSR,VentAmp,VentPW,VRP,VentSense,RateSmooth,ActivityThresh,ReactTime,RespFact,RecoveryTime):
+        file = open("parameters.txt","r")
+        lines = file.readlines()
+        file.close()
+        count = 0
+        for i in lines:
+            i = i.strip() #removes problematic whitespace  ## TEST CASE??
+            count = count+1 # count up the number of lines till we reach the user
+            if (i==settings.user):  #user is a global variable, this checks to see if the user exists in the parameters file.
+                for j in lines:  # This will bug if there is more than one user in the parameters file
+                    j = j.strip() #remove whitespace 
+                    count = count + 1  # count the number of lines until AOO is reached + lines to the current user (from previous loop)
+                    if (j == "VVIR"):
+                        print("user global works, @VVIR too")
+                        yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
+                        if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
+                            #delete next 12 values
+                            del lines[count:count+12] #delete items from count to count+4
+                            
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"MSR"+"\t"+MSR)
+                            lines.insert(count+3, "\n"+"VentAmp"+"\t"+VentAmp)
+                            lines.insert(count+4, "\n"+"VentPW"+"\t"+VentPW)
+                            lines.insert(count+5, "\n"+"VRP"+"\t"+VRP)
+                            lines.insert(count+6, "\n"+"VentSense"+"\t"+VentSense)
+                            lines.insert(count+7, "\n"+"RateSmooth"+"\t"+RateSmooth)
+                            lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
+                            lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
+                            lines.insert(count+10, "\n"+"RespFact"+"\t"+RespFact)
+                            lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+                            
+                        else:
+                            # write only
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"MSR"+"\t"+MSR)
+                            lines.insert(count+3, "\n"+"VentAmp"+"\t"+VentAmp)
+                            lines.insert(count+4, "\n"+"VentPW"+"\t"+VentPW)
+                            lines.insert(count+5, "\n"+"VRP"+"\t"+VRP)
+                            lines.insert(count+6, "\n"+"VentSense"+"\t"+VentSense)
+                            lines.insert(count+7, "\n"+"RateSmooth"+"\t"+RateSmooth)
+                            lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
+                            lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
+                            lines.insert(count+10, "\n"+"RespFact"+"\t"+RespFact)
+                            lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+
+    # writeDOOR(self.LRLInput.get(),self.URLInput.get(),self.MaxSensorRateInput.get(),self.FixedAVDelayInput.get(),self.AtrApmlitudeInput.get(),self.AtrPulseWidthInput.get(),self.VentApmlitudeInput.get(),self.VentPulseWidthInput.get(),self.ActivityThresholdInput.get(),self.ReactionTimeInput.get(),self.ResponseFactorInput.get(),self.RecoveryTimeInput.get())
+
+    def writeDOOR(LRL,URL,MSR,FAVD,AtrAmp,AtrPW,VentAmp,VentPW,ActivityThresh,ReactTime,RespFact,RecoveryTime):
+        file = open("parameters.txt","r")
+        lines = file.readlines()
+        file.close()
+        count = 0
+        for i in lines:
+            i = i.strip() #removes problematic whitespace  ## TEST CASE??
+            count = count+1 # count up the number of lines till we reach the user
+            if (i==settings.user):  #user is a global variable, this checks to see if the user exists in the parameters file.
+                for j in lines:  # This will bug if there is more than one user in the parameters file
+                    j = j.strip() #remove whitespace 
+                    count = count + 1  # count the number of lines until AOO is reached + lines to the current user (from previous loop)
+                    if (j == "DOOR"):
+                        print("user global works, @DOOR too")
+                        yesLRL = lines[count].split("\t") # splits potential LRL into a list of 2 things
+                        if yesLRL[0] == "LRL":	 #index the list at 0 check if its a match
+                            #delete next 12 values
+                            del lines[count:count+12] #delete items from count to count+4
+                            
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"MSR"+"\t"+MSR)
+                            lines.insert(count+3, "\n"+"FAVD"+"\t"+FAVD)
+                            lines.insert(count+4, "\n"+"VentPW"+"\t"+AtrAmp)
+                            lines.insert(count+5, "\n"+"VRP"+"\t"+AtrPW)
+                            lines.insert(count+6, "\n"+"Hysteresis"+"\t"+VentAmp)
+                            lines.insert(count+7, "\n"+"RateSmooth"+"\t"+VentPW)
+                            lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
+                            lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
+                            lines.insert(count+10, "\n"+"RespFact"+"\t"+RespFact)
+                            lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+                            
+                        else:
+                            # write only
+                            lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
+                            lines.insert(count+1, "\n"+"URL"+"\t"+URL)
+                            lines.insert(count+2, "\n"+"MSR"+"\t"+MSR)
+                            lines.insert(count+3, "\n"+"FAVD"+"\t"+FAVD)
+                            lines.insert(count+4, "\n"+"VentPW"+"\t"+AtrAmp)
+                            lines.insert(count+5, "\n"+"VRP"+"\t"+AtrPW)
+                            lines.insert(count+6, "\n"+"Hysteresis"+"\t"+VentAmp)
+                            lines.insert(count+7, "\n"+"RateSmooth"+"\t"+VentPW)
+                            lines.insert(count+8, "\n"+"ActivityThresh"+"\t"+ActivityThresh)
+                            lines.insert(count+9, "\n"+"ReactTime"+"\t"+ReactTime)
+                            lines.insert(count+10, "\n"+"RespFact"+"\t"+RespFact)
+                            lines.insert(count+11, "\n"+"RecoveryTime"+"\t"+RecoveryTime+"\n")
+                            
+
+                            file = open("parameters.txt","w")
+                            lines = "".join(lines) # join the new lines variable
+
+                            file.write(lines) #write to the file
+                            file.close()
+                            break
+
+    # def readAOO

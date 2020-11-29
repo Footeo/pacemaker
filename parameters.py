@@ -1,5 +1,8 @@
 from tkinter import *
 import settings
+import screens
+
+#This will be the OG paramters.py file for now
 
 # This could probably be cleaned up by making a class, the functions all take different inputs so it would be
 # difficult to make them universal members of a class in that case. 
@@ -7,7 +10,7 @@ import settings
 #Have to make sure that the limits of the variable are correct before this is written to the file.
 
 
-def writeAOO(LRL,URL,AtrAmp,AtrPW):
+def writeAOO(self,LRL,URL,AtrAmp,AtrPW):
     file = open("parameters.txt","r")
     lines = file.readlines()
     file.close()
@@ -26,6 +29,8 @@ def writeAOO(LRL,URL,AtrAmp,AtrPW):
                         #delete next 4 values
                         del lines[count:count+4] #delete items from count to count+4
                         
+                        screens.AOO().message.configure(text="Try again")
+
                         lines.insert(count, "LRL"+"\t"+LRL) # insert all the passed parameters into the lines variable (index,data)
                         lines.insert(count+1, "\n"+"URL"+"\t"+URL)
                         lines.insert(count+2, "\n"+"AtrAmp"+"\t"+AtrAmp)
