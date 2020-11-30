@@ -1,8 +1,10 @@
 import serial
 import struct
 import time
-import settings
 import ctypes
+
+import settings # for serial port definition
+import egram  #egram functions 
 
 #note DO NOT name the file serial.py, it will break the import feature
 def sendparameters(params,switch): #params is a list with the parameters that need to be packed  Also if switch is 0 AOO if 1 VOO

@@ -3,6 +3,7 @@ from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 import sys  # We need sys so that we can pass argv to QApplication
 import os
+import settings 
 
 class MainWindow(QtWidgets.QMainWindow):
 
@@ -12,11 +13,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.graphWidget = pg.PlotWidget()
         self.setCentralWidget(self.graphWidget)
 
-        hour = [1,2,3,4,5,6,7,8,9,10]
-        temperature = [30,32,34,32,33,31,29,32,35,45]
+        Time = [1,2,3,4,5,6,7,8,9,10]  #seconds
+        Amplitude = [0,0,1,5,-1,-0.5,-.25,0,0,0]  #Ex Voltage
 
         pen = pg.mkPen(color=(255, 0, 0))
-        self.graphWidget.plot(hour, temperature, pen=pen)
+        self.graphWidget.plot(Time, Amplitude, pen=pen)
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
