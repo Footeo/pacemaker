@@ -10,7 +10,7 @@ settings.init() #initialize global variables
 root = Tk() 
 root.title("Device Control Monitor")
 # sets the geometry of main root window 
-root.geometry("800x620")
+root.geometry("900x700")
 
 
 # create 2 frames
