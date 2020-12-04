@@ -15,7 +15,7 @@ class Login:
 		self.labelName.pack()
 		self.inputName = Entry(self.contentFrame)
 		self.inputName.pack()
-		self.labelPass = Label (self.contentFrame, text="Enter Password: ")
+		self.labelPass = Label(self.contentFrame, text="Enter Password: ")
 		self.labelPass.pack()
 		self.inputPass = Entry(self.contentFrame, show="*")
 		self.inputPass.pack()

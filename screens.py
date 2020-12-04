@@ -3,6 +3,7 @@ from tkinter import *
 import parameters
 import settings 	#for user global variable
 import readtosend #reads from the parameters file to prepare values for serialcom
+import egram
 
 #NOTES from Oliver
 # 1. Add limits to the inputs, i.e. once a user passes an input check to see if it is within the correct range, alert them if it isn't. Also need to check for things like LRL > URL
@@ -64,6 +65,7 @@ class Screens:
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(1),activebackground="red").pack()
 		# self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT) #OFF button
 		# self.addTxRxDisplay() # add the txrx setup
+		self.showEgram = Button(self.optionsFrame,text="Show Egram",command=lambda: egram.main()).pack()
 
 	def AAI(self):
 		self.removeContent()
@@ -98,6 +100,7 @@ class Screens:
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(2),activebackground="red").pack()
 		# self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		# self.addTxRxDisplay() # add the txrx setup
+		self.showEgram = Button(self.optionsFrame,text="Show Egram",command=lambda: egram.main()).pack()
 
 		
 	def VOO(self):
@@ -125,6 +128,7 @@ class Screens:
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(3),activebackground="red").pack()
 		# self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		# self.addTxRxDisplay() # add the txrx setup
+		self.showEgram = Button(self.optionsFrame,text="Show Egram",command=lambda: egram.main()).pack()
 
 
 	def VVI(self):
@@ -157,6 +161,7 @@ class Screens:
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(4),activebackground="red").pack()
 		# self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		# self.addTxRxDisplay() # add the txrx setup
+		self.showEgram = Button(self.optionsFrame,text="Show Egram",command=lambda: egram.main()).pack()
 
 	def DOO(self):
 		self.removeContent()
@@ -192,6 +197,7 @@ class Screens:
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(5),activebackground="red").pack()
 		# self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		# self.addTxRxDisplay() # add the txrx setup
+		self.showEgram = Button(self.optionsFrame,text="Show Egram",command=lambda: egram.main()).pack()
 
 	def AOOR(self):
 		self.removeContent()
@@ -236,6 +242,7 @@ class Screens:
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(6),activebackground="red").pack()
 		# self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		# self.addTxRxDisplay() # add the txrx setup
+		self.showEgram = Button(self.optionsFrame,text="Show Egram",command=lambda: egram.main()).pack()
 
 	def AAIR(self):  
 		self.removeContent()
@@ -296,6 +303,7 @@ class Screens:
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(7),activebackground="red").pack()
 		# self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		# self.addTxRxDisplay() # add the txrx setup
+		self.showEgram = Button(self.optionsFrame,text="Show Egram",command=lambda: egram.main()).pack()
 
 	def VOOR(self): 
 		self.removeContent()
@@ -340,6 +348,7 @@ class Screens:
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(8),activebackground="red").pack()
 		# self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		# self.addTxRxDisplay() # add the txrx setup
+		self.showEgram = Button(self.optionsFrame,text="Show Egram",command=lambda: egram.main()).pack()
 
 	def VVIR(self):
 		self.removeContent()
@@ -397,6 +406,7 @@ class Screens:
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(9),activebackground="red").pack()
 		# self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		# self.addTxRxDisplay() # add the txrx setup
+		self.showEgram = Button(self.optionsFrame,text="Show Egram",command=lambda: egram.main()).pack()
 
 	def DOOR(self):
 		self.removeContent()
@@ -449,6 +459,7 @@ class Screens:
 		self.textbutton = Button(self.optionsFrame, text="Turn TxRx ON", command = lambda: readtosend.readparameters(10),activebackground="red").pack()
 		# self.textbutton2=Button(self.optionsFrame, text="Turn TxRx OFF", command = lambda: self.colorTxRx(0)).pack(side=RIGHT)
 		# self.addTxRxDisplay() # add the txrx setup
+		self.showEgram = Button(self.optionsFrame,text="Show Egram",command=lambda: egram.main()).pack()
 
 
 # Test case idea, go through every piece of text to check that the units make sense
